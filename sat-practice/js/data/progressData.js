@@ -1,0 +1,122 @@
+/**
+ * Mock progress data — mirrors /data/progress.json.
+ * Static baseline (spec mục 17/28); Error Trends' current week is blended
+ * live with real ErrorLogService data in progress.js.
+ */
+const PROGRESS_DATA = {
+  "scoreProgress": [
+    {
+      "label": "Jul",
+      "score": 1200
+    },
+    {
+      "label": "Jul 22",
+      "score": 1260
+    },
+    {
+      "label": "Aug 8",
+      "score": 1310
+    },
+    {
+      "label": "Aug 22",
+      "score": 1380
+    }
+  ],
+  "accuracy": {
+    "overall": 76,
+    "readingWriting": 72,
+    "math": 81
+  },
+  "skillBreakdown": [
+    {
+      "skill": "Main Idea",
+      "accuracy": 82
+    },
+    {
+      "skill": "Inference",
+      "accuracy": 61
+    },
+    {
+      "skill": "Evidence",
+      "accuracy": 70
+    },
+    {
+      "skill": "Words in Context",
+      "accuracy": 85
+    },
+    {
+      "skill": "Text Structure",
+      "accuracy": 74
+    },
+    {
+      "skill": "Transitions",
+      "accuracy": 68
+    },
+    {
+      "skill": "Rhetorical Synthesis",
+      "accuracy": 73
+    },
+    {
+      "skill": "Boundaries",
+      "accuracy": 77
+    },
+    {
+      "skill": "Form, Structure, and Sense",
+      "accuracy": 80
+    },
+    {
+      "skill": "Linear Equations",
+      "accuracy": 83
+    },
+    {
+      "skill": "Systems of Equations",
+      "accuracy": 75
+    },
+    {
+      "skill": "Quadratics",
+      "accuracy": 69
+    },
+    {
+      "skill": "Functions",
+      "accuracy": 78
+    },
+    {
+      "skill": "Percentages",
+      "accuracy": 88
+    },
+    {
+      "skill": "Ratios",
+      "accuracy": 84
+    },
+    {
+      "skill": "Data Analysis",
+      "accuracy": 71
+    },
+    {
+      "skill": "Probability",
+      "accuracy": 65
+    },
+    {
+      "skill": "Geometry",
+      "accuracy": 79
+    },
+    {
+      "skill": "Trigonometry",
+      "accuracy": 62
+    }
+  ],
+  "errorTrends": [
+    {
+      "week": "Week 1",
+      "mistakes": 35
+    },
+    {
+      "week": "Week 2",
+      "mistakes": 27
+    },
+    {
+      "week": "Week 3",
+      "mistakes": 19
+    }
+  ]
+};

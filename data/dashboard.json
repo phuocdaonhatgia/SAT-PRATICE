@@ -1,0 +1,57 @@
+{
+  "student": {
+    "name": "Gia Phước",
+    "streakDays": 7,
+    "xp": 1240,
+    "level": 6
+  },
+  "score": {
+    "total": 1280,
+    "max": 1600,
+    "target": 1450,
+    "readingWriting": 650,
+    "readingWritingMax": 800,
+    "math": 630,
+    "mathMax": 800
+  },
+  "todayGoal": {
+    "questionsTarget": 20,
+    "questionsDone": 12,
+    "vocabTarget": 15,
+    "vocabDone": 15,
+    "reviewTarget": 5,
+    "reviewDone": 2
+  },
+  "weakAreas": [
+    { "skill": "Grammar", "accuracy": 62, "subject": "reading-writing" },
+    { "skill": "Inference", "accuracy": 58, "subject": "reading-writing" },
+    { "skill": "Transitions", "accuracy": 71, "subject": "reading-writing" },
+    { "skill": "Linear Equations", "accuracy": 83, "subject": "math" }
+  ],
+  "recentMistakes": [
+    {
+      "question": "Passage #214 — Question 3",
+      "topic": "Inference",
+      "errorType": "Misread evidence",
+      "status": "review"
+    },
+    {
+      "question": "Passage #198 — Question 7",
+      "topic": "Transitions",
+      "errorType": "Wrong strategy",
+      "status": "progress"
+    },
+    {
+      "question": "Algebra Drill — Question 12",
+      "topic": "Linear Equations",
+      "errorType": "Calculation error",
+      "status": "fixed"
+    },
+    {
+      "question": "Passage #201 — Question 2",
+      "topic": "Words in Context",
+      "errorType": "Vocabulary",
+      "status": "review"
+    }
+  ]
+}

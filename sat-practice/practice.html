@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Practice — SAT Practice</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/practice.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar-mount"></aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <div class="topbar__greeting">Practice</div>
+        <div class="topbar__sub">Choose a subject, pick your focus skills, and start a session.</div>
+      </div>
+    </div>
+
+    <div class="subject-tabs" id="subject-tabs"></div>
+
+    <section class="card" style="margin-bottom:18px;">
+      <div class="picker-toolbar">
+        <span class="card__title">Choose your focus</span>
+        <div class="picker-toolbar__actions">
+          <button class="link-btn" id="select-all-skills">Clear selection (practice all skills)</button>
+        </div>
+      </div>
+      <div id="domain-list"></div>
+    </section>
+
+    <div class="grid dash-grid--secondary" style="margin-top:0;">
+      <section class="card">
+        <div class="card__head"><span class="card__title">Difficulty</span></div>
+        <div class="chip-row" id="difficulty-chips"></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head"><span class="card__title">Number of Questions</span></div>
+        <div class="chip-row" id="count-chips"></div>
+      </section>
+    </div>
+
+    <div class="start-bar">
+      <span class="start-bar__count" id="start-bar-count"></span>
+      <button class="btn btn--primary" id="start-practice-btn">Start Practice</button>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/data/questionsData.js"></script>
+<script src="js/questionEngine.js"></script>
+<script src="js/sessionManager.js"></script>
+<script src="js/practice.js"></script>
+</body>
+</html>
