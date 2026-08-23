@@ -56,7 +56,7 @@ function renderSidebar(activeKey) {
     <nav class="sidebar__nav">${navHtml}</nav>
     <div class="sidebar__footer">
       <div class="sidebar__user">
-        <div class="sidebar__avatar">GP</div>
+        <div class="sidebar__avatar">KN</div>
         <div>
           <div class="sidebar__user-name">Khánh Ngọc</div>
           <div class="sidebar__user-role">Grade 11 · Target 1600</div>

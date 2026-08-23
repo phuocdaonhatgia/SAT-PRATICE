@@ -320,6 +320,7 @@ function submitAnswer() {
     ErrorLogService.logMistake(currentQuestion, answerState.selected);
   }
   if (typeof GamificationService !== "undefined") GamificationService.recordAnswer(currentQuestion, correct);
+  if (typeof PracticeHistory !== "undefined") PracticeHistory.markSeen(currentQuestion.id);
   renderQuestion();
 }
 

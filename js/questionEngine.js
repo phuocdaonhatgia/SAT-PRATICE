@@ -69,24 +69,39 @@ const QuestionProvider = (() => {
   /**
    * Build a practice set (used by Practice page + "Practice Weak Areas" +
    * "Build My Mini Test"). Returns an array of question ids in play order.
+   *
+   * Never repeats a question the student has already answered until every
+   * question matching these same filters has been done at least once —
+   * then it resets and starts randomizing from the full matching pool again
+   * (see practiceHistory.js).
    */
   function buildPracticeSet({ subject, domain, skills, difficulties, tag, count = 10 } = {}) {
     let pool = filterQuestions({ subject, domain, skills, difficulties, tag });
     if (pool.length === 0) pool = getAllQuestions(); // graceful fallback so a session is never empty
-    const picked = shuffle(pool).slice(0, Math.min(count, pool.length));
-    return picked.map(q => q.id);
+
+    const poolIds = pool.map(q => q.id);
+    const candidateIds = (typeof PracticeHistory !== "undefined")
+      ? PracticeHistory.unseenOrReset(poolIds)
+      : poolIds;
+
+    const picked = shuffle(candidateIds).slice(0, Math.min(count, candidateIds.length));
+    return picked;
   }
 
   /**
    * Personalized mini test built from weighted skill counts, e.g.
    * { "Inference": 4, "Transitions": 3, "Linear Equations": 1 }
-   * Mirrors spec mục 11 "Build My Mini Test".
+   * Mirrors spec mục 11 "Build My Mini Test". Same no-repeat-until-exhausted
+   * behavior as buildPracticeSet, applied per skill.
    */
   function buildWeightedMiniTest(skillCounts) {
     const ids = [];
     Object.entries(skillCounts).forEach(([skill, n]) => {
-      const pool = shuffle(QUESTIONS_DATA.filter(q => q.skill === skill));
-      pool.slice(0, n).forEach(q => ids.push(q.id));
+      const poolIds = QUESTIONS_DATA.filter(q => q.skill === skill).map(q => q.id);
+      const candidateIds = (typeof PracticeHistory !== "undefined")
+        ? PracticeHistory.unseenOrReset(poolIds)
+        : poolIds;
+      shuffle(candidateIds).slice(0, n).forEach(id => ids.push(id));
     });
     return shuffle(ids);
   }

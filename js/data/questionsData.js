@@ -1,9 +1,9 @@
 /**
- * Mock question bank — mirrors /data/questions.json exactly.
- * Exists so the static site works when opened directly (file://) without
- * a local server, since fetch() on local JSON is blocked by CORS in that mode.
- *
- * TODO (later phase): replace with a real fetch to /api/questions.
+ * questionsData.js — mock SAT question bank (spec mục 15 QuestionProvider).
+ * Includes the original hand-written question set plus a cleaned subset of
+ * OCR-imported questions (badly garbled OCR entries were filtered out —
+ * see /tmp removal script; original import had 1882 OCR questions, ~1822 of
+ * those were unusable garbled text and have been removed).
  */
 const QUESTIONS_DATA = [
   {
@@ -1972,5 +1972,2165 @@ const QUESTIONS_DATA = [
       "Geometry and Trigonometry",
       "Trigonometry"
     ]
+  },
+  {
+    "id": "ocr-00107",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Inequalities",
+    "group": "Algebra — Linear Inequalities",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "233 dateav0 ‘Acity employee will plant two types of bushes, azaleas and boxwoods, in a park. There will be no more than 164 total",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Aa+b> 164 3a>b Batb> 164 as3b"
+      },
+      {
+        "id": "B",
+        "text": "bushes planted, and the number of azaleas planted willbe at most thre times the number of boxwoods planted. Which of the following systems of inequalities best represents this situation where ais the number of azaleas that willbe planted, ‘and bis the number of boxwoods that will be planted?"
+      },
+      {
+        "id": "C",
+        "text": "ca+b< 164 Ba>b"
+      },
+      {
+        "id": "D",
+        "text": "Da+b< 164 asa"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Inequalities 2.pdf",
+    "sourceQuestionNumber": "2.13",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00108",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Inequalities",
+    "group": "Algebra — Linear Inequalities",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "hateadiaadl 21% ostaama6 [A particular botanist classifies a species of pant as tall its typical height when fully grown is more than 100 centimeters Each of the following inequalities represents the possible heights hn centimeters, for a specific plant species when fully ‘grown, Which inequality represents the possible heights h, in centimeters, fora tall plant species?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A106 <h < 158"
+      },
+      {
+        "id": "B",
+        "text": "B.80<h< 100"
+      },
+      {
+        "id": "C",
+        "text": "Caz ch<sT"
+      },
+      {
+        "id": "D",
+        "text": "DIT <h< 85"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Inequalities 2.pdf",
+    "sourceQuestionNumber": "2.14",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00116",
+    "subject": "math",
+    "domain": "Advanced Math",
+    "skill": "Equivalent Expressions",
+    "group": "Advanced Math — Equivalent Expressions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "ta okbags | ea) 3x2 424-7)2",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A 5x?- 2x43"
+      },
+      {
+        "id": "B",
+        "text": "B.5x242x-3"
+      },
+      {
+        "id": "C",
+        "text": "cK? = 2x11"
+      },
+      {
+        "id": "D",
+        "text": "Dax? +2x=11"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Identify the given information and the exact quantity the question asks you to find.",
+    "hint2": "Choose the equation, formula, or representation that connects the givens to the unknown.",
+    "hint3": "Substitute carefully and check the result in the original conditions.",
+    "source": "Equivalent Expressions 1.pdf",
+    "sourceQuestionNumber": "1.3",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00269",
+    "subject": "math",
+    "domain": "Problem-Solving and Data Analysis",
+    "skill": "Probability",
+    "group": "Problem-Solving and Data Analysis — Probability",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "19 abexce [store received a shipment of 1.000 MP3 players, 4 of which were",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.0008 8.004"
+      },
+      {
+        "id": "B",
+        "text": "ba wo 22080878 OO “There are n nonfiction books and 12 fiction books on a bookshelf one of"
+      },
+      {
+        "id": "C",
+        "text": "cos"
+      },
+      {
+        "id": "D",
+        "text": "defective. fan MP3 player is randomly selected from this shipment, what is ‘the probabilty that tis defective?"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify exactly which statistic or quantity the question asks about.",
+    "hint2": "Use the table, graph, or numerical data directly before doing extra calculations.",
+    "hint3": "Check that your calculation uses the correct rows, categories, or denominator.",
+    "source": "Probability 1.pdf",
+    "sourceQuestionNumber": "1.1",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00558",
+    "subject": "math",
+    "domain": "Problem-Solving and Data Analysis",
+    "skill": "Evaluating Statistical Claims",
+    "group": "Problem-Solving and Data Analysis — Evaluating Statistical Claims",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "12h Theeeegeting eeeettaeel 0h nig Themed end Se ily epee em eee eptineipel fe reper et",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. Allthe 50 baobab tres that were selected in this habitat"
+      },
+      {
+        "id": "B",
+        "text": "B,Allthe baobab trees that were 19 years old in this habitat C.Allthe baobab trees that were 17 years old in South Attica"
+      },
+      {
+        "id": "C",
+        "text": "chillren per household inthe community. 36 tea0we For a baobab tee habitat in South Africa, scientist randomly selected 50 baobab trees that were 17 years old and randomly essigned them to two groups. Each group was subjected to a diferent watering pattern for 2 consecutive years to ‘observe whether the watering pattern affecte the tres’ growth rate. Based on the design of the study, what i the largest {10up to which these results can be applied?"
+      },
+      {
+        "id": "D",
+        "text": "D.Allthe baobab trees that were 17 years odin this habitat"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify exactly which statistic or quantity the question asks about.",
+    "hint2": "Use the table, graph, or numerical data directly before doing extra calculations.",
+    "hint3": "Check that your calculation uses the correct rows, categories, or denominator.",
+    "source": "Evaluating Statistical Claims 3.pdf",
+    "sourceQuestionNumber": "3.6",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00567",
+    "subject": "math",
+    "domain": "Problem-Solving and Data Analysis",
+    "skill": "Ratios, Rates, Proportions, and Units",
+    "group": "Problem-Solving and Data Analysis — Ratios, Rates, Proportions, and Units",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Ratios, Rates, Proportions, and Units 1 19 eseansor Shaquan has 7 red cards and 28 blve cards. What isthe ratio of red ‘ards to blue cards that Shaquan has?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Attod"
+      },
+      {
+        "id": "B",
+        "text": "Batt"
+      },
+      {
+        "id": "C",
+        "text": "c.1%7"
+      },
+      {
+        "id": "D",
+        "text": "D.7t01"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "List the two quantities being compared and keep their order consistent.",
+    "hint2": "Set up equivalent ratios or cross-multiply.",
+    "hint3": "Check the units and whether the final ratio matches what the question asks for.",
+    "source": "Ratios, Rates, Proportions, and Units 1.pdf",
+    "sourceQuestionNumber": "1.9",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00612",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Equations",
+    "group": "Algebra — Linear Equations",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Linear Equations in One Variable 1 19 eciocatr",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Agn-2"
+      },
+      {
+        "id": "B",
+        "text": "Bant2 ©.20-3"
+      },
+      {
+        "id": "C",
+        "text": "Cathy has n CDs. Gerry has 3 more than twice the number of CDs that Cathy has. n terms of, how many GOs does Gerry have?"
+      },
+      {
+        "id": "D",
+        "text": "D.2n+3"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Equations in One Variable 1.pdf",
+    "sourceQuestionNumber": "1.9",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00676",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Inequalities",
+    "group": "Algebra — Linear Inequalities",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "vas zecer5 For a 3.week period ina town in linos, the lowest recorded temperature was 31 degrees Fahrenhelt (“F) and the highest recorded temperature was 67°F. Which inequality is true for any recorded temperature fin \"Fin this town for this Beek petiod?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "ALD os"
+      },
+      {
+        "id": "B",
+        "text": "Bt>6r"
+      },
+      {
+        "id": "C",
+        "text": "cast<e7"
+      },
+      {
+        "id": "D",
+        "text": "Dtsat"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Inequalities 1.pdf",
+    "sourceQuestionNumber": "1.15",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00686",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Equations",
+    "group": "Algebra — Linear Equations",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "39 sees Inthe xy-plane, ne kis defined by x-+y =: Line perpendicular tone",
+    "choices": [
+      {
+        "id": "A",
+        "text": "and the y-ntrcepto ine is (033). Which of the following isan equation oft 2 Axty=3"
+      },
+      {
+        "id": "B",
+        "text": "Bxty=-3"
+      },
+      {
+        "id": "C",
+        "text": "Cx-ya3"
+      },
+      {
+        "id": "D",
+        "text": "Dx-y=-3"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Equations in Two Variables 3.pdf",
+    "sourceQuestionNumber": "3.9",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00723",
+    "subject": "math",
+    "domain": "Advanced Math",
+    "skill": "Equivalent Expressions",
+    "group": "Advanced Math — Equivalent Expressions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Equivalent Expressions 3",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ame 8.20 cz"
+      },
+      {
+        "id": "B",
+        "text": "Bi -scbteD. (ax +3)(5x? — bx +4) =20x9 -9x?—2x +12."
+      },
+      {
+        "id": "C",
+        "text": "constants, Whats the value of ab ?"
+      },
+      {
+        "id": "D",
+        "text": "Dao"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Identify the given information and the exact quantity the question asks you to find.",
+    "hint2": "Choose the equation, formula, or representation that connects the givens to the unknown.",
+    "hint3": "Substitute carefully and check the result in the original conditions.",
+    "source": "Equivalent Expressions 3.pdf",
+    "sourceQuestionNumber": "3.1",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00754",
+    "subject": "math",
+    "domain": "Problem-Solving and Data Analysis",
+    "skill": "One-Variable Data",
+    "group": "Problem-Solving and Data Analysis — One-Variable Data",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "‘The median number of bursts The mean number of bursts",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Aland I"
+      },
+      {
+        "id": "B",
+        "text": "B.tenly"
+      },
+      {
+        "id": "C",
+        "text": "c.tlonly . Nether nor i 312 sepsnace"
+      },
+      {
+        "id": "D",
+        "text": "Data set A consists ofthe heights of 75 objects and has a mean of 25 meters. Dataset 8 consists ofthe heights ‘of 50 objects and has a mean of 65 meters. Data set C consists of the heights ofthe 125 objects from data sets A ‘and B. Whats the mean, in meters, of data sot C?"
+      }
+    ],
+    "correctAnswer": "41",
+    "explanation": "",
+    "hint1": "Identify exactly which statistic or quantity the question asks about.",
+    "hint2": "Use the table, graph, or numerical data directly before doing extra calculations.",
+    "hint3": "Check that your calculation uses the correct rows, categories, or denominator.",
+    "source": "One-Variable Data 3.pdf",
+    "sourceQuestionNumber": "3.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00791",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Equations",
+    "group": "Algebra — Linear Equations",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "was 2ssabais OO Inthe xy-plane, a line has a slope of 6 and passes through the point (0,8). Which ofthe folowing is an equation ofthis tine?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ay= 6x48"
+      },
+      {
+        "id": "B",
+        "text": "B y= 6x48"
+      },
+      {
+        "id": "C",
+        "text": "Cys 6x46"
+      },
+      {
+        "id": "D",
+        "text": "Dy=8x+48"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Equations in Two Variables 1.pdf",
+    "sourceQuestionNumber": "1.13",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00823",
+    "subject": "math",
+    "domain": "Advanced Math",
+    "skill": "Equivalent Expressions",
+    "group": "Advanced Math — Equivalent Expressions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "2n albfiese +64 Whi ofthe fatowing is equvaint the expression above?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Alt af +8"
+      },
+      {
+        "id": "B",
+        "text": "Biixt at <5"
+      },
+      {
+        "id": "C",
+        "text": "Cx 3 +5"
+      },
+      {
+        "id": "D",
+        "text": "D.ie- 3 8"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify the given information and the exact quantity the question asks you to find.",
+    "hint2": "Choose the equation, formula, or representation that connects the givens to the unknown.",
+    "hint3": "Substitute carefully and check the result in the original conditions.",
+    "source": "Equivalent Expressions 2.pdf",
+    "sourceQuestionNumber": "2.11",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00886",
+    "subject": "math",
+    "domain": "Geometry and Trigonometry",
+    "skill": "Lines, Angles, and Triangles",
+    "group": "Geometry and Trigonometry — Lines, Angles, and Triangles",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Note: Figure not drawn to sae Inthe figure shown, lines and s ave parallel and ine m intersects both ines. y < 65, which ofthe following must be true?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Awels"
+      },
+      {
+        "id": "B",
+        "text": "Be> 15"
+      },
+      {
+        "id": "C",
+        "text": "Carty < 180"
+      },
+      {
+        "id": "D",
+        "text": "Det y> 180 25 astecrzt “Tangle ABC is similar to wiangle XYZ, such that A, B, and C correspond to X, ¥, and Z respectively. The lenath of each side of tangle XYZ is 2 times the lenath of ts corresponding sie in viangle ABC. The measure Of side AB ts 18. Whatie the ressure of side XY?"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Draw or label the relevant lengths, angles, or shapes from the prompt.",
+    "hint2": "Choose the geometric relationship or formula that connects the given information to the unknown.",
+    "hint3": "Check units and use the diagram to make sure the result is geometrically reasonable.",
+    "source": "Lines, Angles, and Triangles 2.pdf",
+    "sourceQuestionNumber": "2.5",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00901",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Inequalities",
+    "group": "Algebra — Linear Inequalities",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "‘37 Sbfsised Cc ‘The triangle inequality theorem states thatthe sum of any two sides of a triangle must be greater than the length ‘ofthe thie side. Ifa triangle has side lengths af 6 and 12, which inequality represents the possible lengths, , of ‘the thi side ofthe triangle?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ar<is"
+      },
+      {
+        "id": "B",
+        "text": "B2>18"
+      },
+      {
+        "id": "C",
+        "text": "cé<2<l8"
+      },
+      {
+        "id": "D",
+        "text": "Die <Gore> 18"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Linear Inequalities 3.pdf",
+    "sourceQuestionNumber": "3.7",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00908",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Functions",
+    "group": "Algebra — Linear Functions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Nonlinear Functions 2 24 fesato23 rs ‘Arectangular volleyball court has an area of 162 square meters. ifthe length ofthe courtis twice the wicth, what isthe width ofthe court, in meters?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "ag"
+      },
+      {
+        "id": "B",
+        "text": "B18"
+      },
+      {
+        "id": "C",
+        "text": "c27"
+      },
+      {
+        "id": "D",
+        "text": "D4"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Functions 2.pdf",
+    "sourceQuestionNumber": "2.1",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00945",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Functions",
+    "group": "Algebra — Linear Functions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Nonlinear Functions 3 Question# 1",
+    "choices": [
+      {
+        "id": "A",
+        "text": "At 82 ca"
+      },
+      {
+        "id": "B",
+        "text": "Bi olerease = 26e-4F=32 The quacate funtion hs defined as shown. the xy-plane, the graph of Y=)intersects the x-ais athe points (0 Oand (2.0) where tis a"
+      },
+      {
+        "id": "C",
+        "text": "constant. What isthe value of ¢?"
+      },
+      {
+        "id": "D",
+        "text": "De"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Functions 3.pdf",
+    "sourceQuestionNumber": "3.1",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00955",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Functions",
+    "group": "Algebra — Linear Functions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Nonlinear Functions 3 sn 707sst09 “The function fis defined by x) = 0¢+3)x +1). The graph of fin the xy- plane isa parabola. Which of the following intervals contains the x= ‘coordinate ofthe vertex of the graph of f?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Andex<-3"
+      },
+      {
+        "id": "B",
+        "text": "B-3<x<t"
+      },
+      {
+        "id": "C",
+        "text": "CG 1<x<3"
+      },
+      {
+        "id": "D",
+        "text": "D 3<x<4"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Functions 3.pdf",
+    "sourceQuestionNumber": "3.11",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00959",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Functions",
+    "group": "Algebra — Linear Functions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Nonlinear Functions 3",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Actonly B.tlonly"
+      },
+      {
+        "id": "B",
+        "text": "BIS otcescu ‘The functions f and g are defined by the given equations, where x > 0, Which ofthe following equations isplays, a8 a constant or coefficient, the maximum value ofthe function it defines, where 2 > 0? 1. fla) = 33(0.4)\"*> 1. g(2) = 33(0.16)(0.4)*-?"
+      },
+      {
+        "id": "C",
+        "text": "C.tand i"
+      },
+      {
+        "id": "D",
+        "text": "D. Neither I nor t"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Functions 3.pdf",
+    "sourceQuestionNumber": "3.15",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00980",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Functions",
+    "group": "Algebra — Linear Functions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Nonlinear Functions 3 336 AddKetet fle) = a2? +42 +6 Inthe given quadratic function, a and c are constants, The graph of y = f(z) in the xy-plane isa parabola that ‘opens upward! and has a vertex atthe point (hk), where h and are constants. it < Oand f(—9) = f(8), hich ofthe following must be true? Le<0 Wa>d",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Atonly"
+      },
+      {
+        "id": "B",
+        "text": "B.tlonly"
+      },
+      {
+        "id": "C",
+        "text": "C.tand i"
+      },
+      {
+        "id": "D",
+        "text": "D. Neither | nor"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Functions 3.pdf",
+    "sourceQuestionNumber": "3.36",
+    "ocr": true
+  },
+  {
+    "id": "ocr-00989",
+    "subject": "math",
+    "domain": "Algebra",
+    "skill": "Linear Functions",
+    "group": "Algebra — Linear Functions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "34s eveanaes [An auditorium has seats for 1,800 people. Tickets to attend a show atthe auditorium currently cost $4.00. For each $1.00 increase tothe ticket price, 100 fewer tickets willbe sold. Ths situation can be modeled by the equation ‘y= 1002 + 1,4002 + 7,200, where 2 represents the increase in ticket pric, in dollars, and y represents the revenue in",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ad"
+      },
+      {
+        "id": "B",
+        "text": "BT"
+      },
+      {
+        "id": "C",
+        "text": "cu 0.18"
+      },
+      {
+        "id": "D",
+        "text": "dollars, rom ticket sales. this equation is graphed inthe xy-plane, at what value of isthe maximum ofthe graph?"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Functions 3.pdf",
+    "sourceQuestionNumber": "3.45",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01015",
+    "subject": "math",
+    "domain": "Advanced Math",
+    "skill": "Nonlinear Equations and Systems",
+    "group": "Advanced Math — Nonlinear Equations and Systems",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "v-3313 pa =0013",
+    "choices": [
+      {
+        "id": "A",
+        "text": "ately *"
+      },
+      {
+        "id": "B",
+        "text": "Bood volume, Va human can be determined using the equation ven ©\" =H, where Vpis the plasma volume and His the hematocrit (the fraction of blood volume that is ed blood cel). Which of the flowing"
+      },
+      {
+        "id": "C",
+        "text": "comet expreses the hemocttn terms ofthe bleed volime an the plasma volume? Ve"
+      },
+      {
+        "id": "D",
+        "text": "D. 0.606 22 crete"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Equations and Systems 2.pdf",
+    "sourceQuestionNumber": "2.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01032",
+    "subject": "math",
+    "domain": "Advanced Math",
+    "skill": "Nonlinear Equations and Systems",
+    "group": "Advanced Math — Nonlinear Equations and Systems",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "229 wes0a 4a? — Te = -36 ‘what isthe postive solution tothe given equation?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "ad"
+      },
+      {
+        "id": "B",
+        "text": "By"
+      },
+      {
+        "id": "C",
+        "text": "cd"
+      },
+      {
+        "id": "D",
+        "text": "DT"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify the quantities and what the question asks you to find.",
+    "hint2": "Translate the relationship into a linear equation or use slope/intercept form.",
+    "hint3": "Use the given values to check the equation and make sure the result answers the exact question.",
+    "source": "Nonlinear Equations and Systems 2.pdf",
+    "sourceQuestionNumber": "2.29",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01042",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Central Ideas and Details",
+    "group": "Information and Ideas — Central Ideas and Details",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": ". Miranda played a crucial rote in influencing the content and distribution of \"Letter to the Spanish Americans.\" . âLetter to the Spanish Americans\" persuaded many people in Latin America to pursue national independence, 37 4aseses2 Ina paper about p--n planar perovskite solar cells (one of several perovskite cell architectures designed to",
+    "choices": [
+      {
+        "id": "A",
+        "text": "at capturing and storing solar power."
+      },
+      {
+        "id": "B",
+        "text": "B.Itis more expensive when manufacturing at scale than are processes for fabricating ETLs used in other perovskite solar cellarchitectures, C. typically entails a greater loss of nanoparticle solution than do ather established approaches for ETL fabrication, D.Itis somewhat imprecise and therefore limits the potential effectiveness of p-i-n planar perovskite solar cells"
+      },
+      {
+        "id": "C",
+        "text": "collect and store solar power), Lyndsey MeMllon-Browm etal. describe a method for fabricating te cell's âelectronic transport layer (ETL) using a spray coating, Conventional ETL fabrication is eccomplshed using a solution of nanoparticles, The pracess can result in loss of up to 80% ofthe solution, increasing the cost of manufacturing at scsleâan issue that may be obviated by spray coating fabrieation, which the researchers"
+      },
+      {
+        "id": "D",
+        "text": "describe as \"highly reproducible, concise, and practical* âWhat does the text most stronaly suggest about conventional ETL fabrication? {Its less suitable for manufacturing large volumes of planar p-i-n perovskite solar cells than an alternative fabrication method may be,"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Central Ideas and Details 3.pdf",
+    "sourceQuestionNumber": "3.6",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01048",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Central Ideas and Details",
+    "group": "Information and Ideas — Central Ideas and Details",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "â312, s7ez7721 _niiclal leaves area developing renewable energy technology that mimics the process of photosynthesis in plants. These",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. energy source, âThe recent increase in the commercial use of artificial leaves as an energy source has encouraged many scientists to"
+      },
+      {
+        "id": "B",
+        "text": "B. research ways to improve the technology. Artificial leaves split water molecules into oxygen and hydrogen ges using catalysts more efficiently than plants do using the process of photosynthesis. Artificial leaves were developed to mimic the natural process of photosynthesis in plants in order to store energy for long .term commercial use 3132418672 _â_Flecironie music pioneer Wendy Carls is credited withthe music for thre feature flms: Clockwork Orange (1971), The âShining (1980), and Tron (1982). However, her musical score for A Clockwork Orange is mostly made up of her arrangements âof Ludwig van Beethover's work. Also, almost al the music thet she and Rachel Ekind composed for The Shining was unused by director Stanley Kubrick. t did not appear inthe fm, Of the thee flms, Tron isthe one in which audiences ean hear the most of Carios's original compositions,"
+      },
+      {
+        "id": "C",
+        "text": "Continued research and development in atficiateaf technology is needed before the devices can be widely used as an"
+      },
+      {
+        "id": "D",
+        "text": "devices are silicon-based solar cells coated in chemical catalysts that activate reactions that split water molecules into hydrogen and oxygen gas. The technology, while generating lots of intrest, isnot yet commercially viable as a large-scale âenergy source. To meet this challenge, scientists from many fields ae researching ways to store, transport, and distribute the energy the devices produce while other scientists are working to improve the cost and efficiency ofthe devices Which choice best states the main idea ofthe text?"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Central Ideas and Details 3.pdf",
+    "sourceQuestionNumber": "3.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01070",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Text Structure and Purpose",
+    "group": "Craft and Structure — Text Structure and Purpose",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "The stranger still stood in the exact middle of the cottage, where he had first planted himself. His singularity lmpelled.a closer scrutiny, A lean, gloomy figure, Har dark and lank, mattedly streaked over his brow. His sunken pitfalls of eyes were ringed by ingigo halo, and played with an innocuous sort of lightring: the gleam without the",
+    "choices": [
+      {
+        "id": "A",
+        "text": "another species through nonrepraductive means. The genetic material can then be transferred \"vertically\" inthe second soeciesthat i, through reproductive inheritance. Scientist Atma lvancevie and her team have hypothesized infection by invertebrate parasites as a mechanism of horizontal gene transfer between vertebrate species: while feeding. a parasite could acauite @ gene from one host, then celocae to host fromacferent vertebrate species and transfer the gene toitin turn. âWhich choice best describes the function af the underlined portion inthe text as @ whole? A. ILexplains why parasites are less susceptible to horizontal gene transfer than thelr hosts are. B. It cafes why some genes are more likely to be transferred horizontally than others ar. C Itcontrasts how horizontal ene transfer occurs among vertebrates with how It occurs amona invertebrates."
+      },
+      {
+        "id": "B",
+        "text": "bolt. The whole man was dripping. He stood in a puddle onthe bare oak floor: his strange walkng-stick vertically resting at his side âWhich choice best states the function of the undlerined sentence inthe overall structure ofthe text? âA. Ielaborates onthe previous sentence's description ofthe character B.Itintroduces the setting that is described in the sentences that follow."
+      },
+      {
+        "id": "C",
+        "text": "C. establishes a contrat with the description in the previous sentence."
+      },
+      {
+        "id": "D",
+        "text": "Dit sets up the character description presented inthe sentences that follow, 2% erzernee Horizontal gene transfer occurs when an organism of one species acquires genetic material from an organism of"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the role the highlighted sentence or detail plays in the passage.",
+    "hint2": "Consider what the writer is trying to accomplish at that point: introduce, illustrate, contrast, support, or conclude.",
+    "hint3": "Choose the answer that describes the function in context rather than merely repeating the sentence content.",
+    "source": "Text Structure and Purpose 2.pdf",
+    "sourceQuestionNumber": "2.13",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01083",
+    "subject": "reading-writing",
+    "domain": "Expression of Ideas",
+    "skill": "Transitions",
+    "group": "Expression of Ideas — Transitions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Which choice completes the text with the most logical transition? âA. adaltionally, 8. utimately,",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.lnadsition,"
+      },
+      {
+        "id": "B",
+        "text": "B.ncontrast, Â©. Specifically,"
+      },
+      {
+        "id": "C",
+        "text": "C. accordingly, . consequently, 33 eerie I.2009, the Craft and Folk Art Museum in Los Angeles hosted a special exibition, Suefos/Yume, showcasing the âworks of local sculptor Dora de Larios. As suggested by the show's title (suefos and yume mean âÃ©reams\" in Spanish and Japanese, respectively), de Laros's at reflects a mix of cultural influences. __her workis. ârounded in the artistic traditions of both Mexico and Japan âWhich choice completes the text withthe most logical transition?"
+      },
+      {
+        "id": "D",
+        "text": "D. Therefore, 34 Se0esoda âwhen one looks atthe dark craggy vista in Hitoshi Fugo's evocative photo series, one's mind might wander off to the cratered surfaces of faraway planets. ___ isthe seriesâ til, Flying Frying Pan, that brings one back to Earth, reminding the viewer that each photo is actualy a close-up view of a familiar household object: frying pan,"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Read the sentence before and after the blank.",
+    "hint2": "Decide what relationship the ideas have: contrast, cause, continuation, example, or sequence.",
+    "hint3": "Pick the transition that expresses that relationship precisely, not merely one that sounds natural.",
+    "source": "Transitions 3.pdf",
+    "sourceQuestionNumber": "3.2",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01088",
+    "subject": "reading-writing",
+    "domain": "Expression of Ideas",
+    "skill": "Transitions",
+    "group": "Expression of Ideas — Transitions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Which choice completes the text with the most logical transition?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. therefore,"
+      },
+      {
+        "id": "B",
+        "text": "Buin fact,"
+      },
+      {
+        "id": "C",
+        "text": "C. moreover, .though, 38 rreedcas 42017 study of sign language learners tested the role of iconictyâthe similarity of a sign to the thing it represente~in language acquisition, The study found that the greater the iconicty of a sig, the more likely it wae tohave been learned the correlation between acquisition and iconcity was lower than that between âacquisition and another factor studied: sign frequency. âWhich choice completes the text withthe most logical transition? Avlinfact, B.Inother words, Â©. Granted,"
+      },
+      {
+        "id": "D",
+        "text": "DLAs a result, 39 stags: âTulip mania\"âthe rapid rise and sudden fll ofthe price of tulip bulbs in seventeenth-century Amsterdamâis often cited as an example ofthe peris of rampant market speculation. However, recent research has âdemonstrated thatthe episode was neither as frenzied nor as disastrous as has been thought. The popular myth urtecnding shat bo vagented sch exma-shepiicetn."
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Read the sentence before and after the blank.",
+    "hint2": "Decide what relationship the ideas have: contrast, cause, continuation, example, or sequence.",
+    "hint3": "Pick the transition that expresses that relationship precisely, not merely one that sounds natural.",
+    "source": "Transitions 3.pdf",
+    "sourceQuestionNumber": "3.7",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01105",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Command of Evidence",
+    "group": "Information and Ideas — Command of Evidence",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âand shelter for many; and rents and taxes throughout Northern England that were not merely high but predatory?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "after an Extended Period in Water 2.2 180 SEs 160 222 140 SBE2 120 BBs Es 100 282 80 Seal B S222 6 232â 4 Oo Seal A ZE3 20 Seal C 0 a 8 Dayl Day2 Sleep on land Research suggests that REM sleepin animals is homaostatcally egulted: animals compensate for periods of REM slep deprivation by increasing subsequent REM sleep. When an land, ur seals gt enough REM sleep, but"
+      },
+      {
+        "id": "B",
+        "text": "Be cebtebe Fur Seal REM Sleep on Land"
+      },
+      {
+        "id": "C",
+        "text": "conclided that REM sleep may not be homeostatialy regulated in fur seal, citing as evidence the foc thatthe pmenpenprecpayistey"
+      },
+      {
+        "id": "D",
+        "text": "duting the weeks they're inthe water, they get almost none. na study of fur sealsâ seep habits, researchers recorded the REM sleep (asa percentage af baseline) of fr seals once they had returned o land. They"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Command of Evidence 3.pdf",
+    "sourceQuestionNumber": "3.4",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01236",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Command of Evidence",
+    "group": "Information and Ideas — Command of Evidence",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "210 sfbedio The Land of Enchantment is a 1906 travel book by Lilian Whiting. In the book, which describes the experience of {traveling through the southwestern United States by train, Whiting reflects on the escape from everyday ie that âsuch a journey provides: âWhich quotation from The Lang af Enchantment most effectively ilustrates the claim? |A. âThe opportunities and advantages already offered and constantly increasing ae greator than would at fist be",
+    "choices": [
+      {
+        "id": "A",
+        "text": "am essesssa âSense and Sensibility isan 1811 nave by Jane Austen. Inthe novel, Austen describes Marianne Dashwood's ability {to persuade others ofthe rightness of her atistc judgments, as is evident when Marianne visits with John Willoughby, a potential suitor âWhich quotation from Sense and Sensibility most effectively illustrates the cai? âA. âAbove all, when she heard him declare, that of music and dancing he was passionately fond, she gave him such a look of approbation as secured the largest share of his discourse to herself forthe rest of hs stay\" Â£B. \"Ther taste was strikingly alke. The same books, the same passages were idolized by eachâor it any"
+      },
+      {
+        "id": "B",
+        "text": "brightness of her eyes could be displayedâ"
+      },
+      {
+        "id": "C",
+        "text": "considered possibleâ 8. \"The social and the picturesque charm ofthe ong journey is singularly enhanced by the leisurely stops made forrereshmentâ C. \"The eal journey begins, of course, at Chicago, and as these trains leave in the evening the traveller fares forth inthe seclusion of his berthâ 1. âOne experiences a certain sense of detachment from ordinary day and daylight duties that is extilarating*"
+      },
+      {
+        "id": "D",
+        "text": "difference appeared, any objection arose, it lasted no longer than tithe force of her arguments and the"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Command of Evidence 2.pdf",
+    "sourceQuestionNumber": "2.1",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01239",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Command of Evidence",
+    "group": "Information and Ideas — Command of Evidence",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "na a ol ol, Soe âAnchorage and Fairbanks, the student concludes thatthe two cities show a similar pattern in the month hours of âsunshine from April to September Which choice best describes data from the graph that support the student's conclusion? [A The monthly hours of sunshine in both Anchorage and Fabanks hold steady in June and July before",
+    "choices": [
+      {
+        "id": "A",
+        "text": "atterneonâ (\"it was a beautiful day in balmy May and the sun shone pleasantly on Mr. Cornelius Johnson's very spruce Prince Albert sult of grey as he alighted from the train in Washingtonâ"
+      },
+      {
+        "id": "B",
+        "text": "beginning to dectine ln August 8, The monthly hours of sunshine in both Anchorage and Fabanks increase from Aprito June and then"
+      },
+      {
+        "id": "C",
+        "text": "C. Anchorage and Fairoanks both have less than 200 monthly hours of sunshine from April to September, '. Anchorage and Fairbanks both have more than 300 monthly hours of sunshine from Apri to June and less than 200 hours from July to September 2x3 2scaesta âtr, Comelus Johnson, Office-Seeker\" isa 1900 short story by Paul Laurence Dunbar. In the story, the narrator describes Mr. Cornelius Johnson's appearance as conveying his exaggerated sense of his importance: âWhich quotation from *Mr. Cornelius Johnson Office-Seekerâ most effectively illustrates the claim? |A.*He carried himself alvays as fhe were passing under his own tiumohalarch* 1. \"The grey Prince Albert as scrupulously buttoned about his frm, and a shiny top hat replaced the felt of the"
+      },
+      {
+        "id": "D",
+        "text": "decrease from June to September."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Command of Evidence 2.pdf",
+    "sourceQuestionNumber": "2.13",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01295",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Boundaries",
+    "group": "Standard English Conventions — Boundaries",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "RE INS COMATNNS TNS OEEE Â£0 Chet E COREITENS 1) The COENERINS CO nae Eee",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.olfense. According"
+      },
+      {
+        "id": "B",
+        "text": "B.offense, according"
+      },
+      {
+        "id": "C",
+        "text": "C.offense according"
+      },
+      {
+        "id": "D",
+        "text": "D.offense and according 28 scstase Itis generally tue that technological change is linear process, in which ance-useful technologies are replaced by new and better ___ the reawakening of interest inthe steam engine (fram advocates of carban-nevtral ail ârave reminds us that ostensibly obsolete technelogies may be brought back into service to address society's changing needs. âwhich choice completes the text so that it conforms tothe conventions of Standard English? âones, even so; 8. ones even s, C. ones; even so, D.ones, even so, 29 zsÂ«t68 In 2017, artists isabel and Ruben Toledo redesigned the costumes and sets for The Miami Cty Ballet's production âof The _ to reviewers, the Toledos' designs helped infuse the production with elements of Miamâs Latin âAmerican culture"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Boundaries 2.pdf",
+    "sourceQuestionNumber": "2.7",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01315",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Boundaries",
+    "group": "Standard English Conventions — Boundaries",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âWhich choles completes the tect so thet tt conforms to the conventions of Stendesd English? âadjustments prior 8. adjustments, prior",
+    "choices": [
+      {
+        "id": "A",
+        "text": "adjustment, Proe Â©. adustments and prior 228 assi%Ã© The Mesoamerican city of Teotihuacan featured a uniquely egalitarian urban housing infrastructure. Bult between the first, and seventh centuries CE, Teothuacan housed its residents (as many as 200,000, by some â__ in acomnplex of"
+      },
+      {
+        "id": "B",
+        "text": "B estimates), Â©. estimatesâ"
+      },
+      {
+        "id": "C",
+        "text": "comfortable apartments of comparable size. Which choice completes the texts that it conforms tothe convetions of Standard English? âAcestimates)"
+      },
+      {
+        "id": "D",
+        "text": "Deestimates"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Boundaries 2.pdf",
+    "sourceQuestionNumber": "2.27",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01390",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Form, Structure, and Sense",
+    "group": "Standard English Conventions — Form, Structure, and Sense",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "8. were tying",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Aas enabled 8. enable Cis enabling Dienables wag c2ecs2s6 It you try on one of artist Nick Cave's signature Soundsuits, you can expect to swish, rustle, or clang every time âyou move, Cave makes his sults out of found objects, everything from ceramic bird to broken record players. He carefully considers the sound an object makes before using __in a suit. \\Which choice comptes the text so that ft conforms te the conventions of Standard English? Athi"
+      },
+      {
+        "id": "B",
+        "text": "bly wa Aesazace âWanda Diaz-Merced is an astrophysicist who lost her sight when she was young. Diaz-Merced's condition inspired her to develop software that can translate scientific data into sound. Sound-based tools___scientists to"
+      },
+      {
+        "id": "C",
+        "text": "Chae flown"
+      },
+      {
+        "id": "D",
+        "text": "detect subtle patterns in data. Such pattems may nat be evident in traditional graphs. âWhich choice completes the text so that it conforms tothe conventions of Standard English?"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Form, Structure, and Sense 1.pdf",
+    "sourceQuestionNumber": "1.17",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01410",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Form, Structure, and Sense",
+    "group": "Standard English Conventions — Form, Structure, and Sense",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "2. survived",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Aare"
+      },
+      {
+        "id": "B",
+        "text": "B.was have been D.were 1391440463\" Unsupervised machine learning is an approach that computer scientist lke Nina Miolane use to engineer artificial inteligence technologies. t involves taining computer algorithms to organize unlabeled datasets, Mutttask learning is âanother approach. involves training computer models to perform multiple tasks atthe same time, Which choice completes the text so that it conforms to the conventions of Standard English? A Those"
+      },
+      {
+        "id": "C",
+        "text": "C. would survive"
+      },
+      {
+        "id": "D",
+        "text": "Dsuvives 1.38 es180056 Mary Madden of Ohio __a fierce advocate of women's voting rights in the late 1800s. The dedication of Madden and her {fellow activists was rewarded in 1920, when the Nineteenth Amendment tothe US Constitution guaranteed American women the right to vote Which choice comaletes the text so that it conforms tothe conventions of Standard English?"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Form, Structure, and Sense 1.pdf",
+    "sourceQuestionNumber": "1.37",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01437",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Boundaries",
+    "group": "Standard English Conventions — Boundaries",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "8. fibers but",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Alife"
+      },
+      {
+        "id": "B",
+        "text": "B.life; Cult: Dale, We radacz âA subseasonal weather forecast attempts to predict weather conditions three to four weeks in_its predictions are therefore more short-term than those of the seasonal forecast, which attempts to predict the |weather more than a month in advance, âWhich choice completes the text so that it conforms tothe conventions of Standard English? A.advance, 8. advance"
+      },
+      {
+        "id": "C",
+        "text": "C-fibers"
+      },
+      {
+        "id": "D",
+        "text": "Difibers, but 13s sfecesse Emperor Ashoka ruled the Maurya Empire in South Asa from roughly 270 to 232 BCE. He is known for enforcing @ âmoral code called the Law of Piety, which established the sanctity of animal the just treatment of the âeldery, and the abolition ofthe slave trade. âWhich choice completes the text so that it conforms tothe conventions of Standard English?"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Boundaries 1.pdf",
+    "sourceQuestionNumber": "1.2",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01447",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Boundaries",
+    "group": "Standard English Conventions — Boundaries",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "8. themselves, themselves. And",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ablend, with"
+      },
+      {
+        "id": "B",
+        "text": "B. blend. with"
+      },
+      {
+        "id": "C",
+        "text": "C.blend; with Diblend with tg Teasore2 I.2000, Nora de Hoyos Comstock, herself an owner ofa successful consulting fm, sought to increase Latina representation in corporate founded Las Comadres para las Americas, an international community that for âover two decades has served as a resource and information network for Latina business professionals. Which choice completes the text so that it conforms tothe conventions of Standard English? A. settings she"
+      },
+      {
+        "id": "D",
+        "text": "D.themselves was acces793 In 1976, the Inuit rock group Sikumiut recorded the album People of the ce. Though anly their fist recor, it shows a band already skied atthe dificult task of making music that sounds easy and fun. On songs lke âUtirumavunga,âLucassie Koperqualukâs guitar ifs effortlessly Charlie Adams's delightully catchy vocal melodies âWhich choice completes the text so that it conforms tothe conventions of Standard English?"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Boundaries 1.pdf",
+    "sourceQuestionNumber": "1.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01504",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "8. postpone",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.Denying a. entering c. carrying"
+      },
+      {
+        "id": "B",
+        "text": "b. Hearing"
+      },
+      {
+        "id": "C",
+        "text": "C. protect"
+      },
+      {
+        "id": "D",
+        "text": "Di decorate Me asotaes âThe following text is adapted from Sui Sin Fars 1912 short story Â°Mrs. Spring Fragrance.â Me. and Mrs. Spring Fragrance immigrated to the United States from China Mrs. Spring Fragrance was unaware that Mr. Spring Fragrance, tired withthe day's business, had thrown himself down on the bamboo settee onthe veranda, and that although his eyes were engaged in scanning the pages of the Chinese World, his ears could nat helpceceiving the words which were borne to him through the open window. âAs used in the text, what does the word âreceivingâ most nearly mean?"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01508",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Which choice completes the text with the most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.veritying 8. multiplying"
+      },
+      {
+        "id": "B",
+        "text": "B inicator of . mativaion for Dicaitciem of ws exsbtaer In the mid-nineteenth century, some abolitionist newspapers __ westward migration in the United States; by printing a letter that described the easy fortunes and high salaries miners could make in California during the Gold Fush,Frederick Douglass's newspaper North Star was one such publication that inspired readers to relocate âWhich choice completes the text withthe most logical and precise word or phrase?"
+      },
+      {
+        "id": "C",
+        "text": "C. comforting"
+      },
+      {
+        "id": "D",
+        "text": "Diensuring ur pszasta âAccording to statistician Nassim Nicholas Taleb, the best way to predict the amount of ime @ nonperishable entity (such as a bulaing ora technology) will continue to exist isto examine how long It has survived Sofa, n this view, an item's age isthe strongest _ how much longer it wl lst âWhich choice completes the text withthe most logical and precise word or phrase? A. uncertainty about"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.16",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01513",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "122 arosssse âSumerian civilization (which lasted from around 3300 to 2000 BCE) _many concepts that persist into present-day civilizations: for example, the first description of the seven-day week appears in the Sumerian Epic of Gilgamesh âWhich choice completes the text withthe most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. transformed"
+      },
+      {
+        "id": "B",
+        "text": "B. introduced"
+      },
+      {
+        "id": "C",
+        "text": "C.iherted"
+      },
+      {
+        "id": "D",
+        "text": "Di overlooked"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.21",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01515",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Words in Context 1",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.creatve B. bold"
+      },
+      {
+        "id": "B",
+        "text": "buildings. Instead of using standard shapes and colors, she typically explored imovaive forms and daring hues. âWhich choice completes the text with the most logical and precise word or phrase?"
+      },
+      {
+        "id": "C",
+        "text": "conducting key experiments that selenite later used a the bass for thir on investigation that led othe fist âered detection ofa gravitational wave in 2016. âWhich choice completes the text with the most logical and precise word or phrase? âA foundational 8. supplementary C. repetitive D.inatfective 126 eoebe1e9 âAs anarcitectin Los Angeles inthe 1950s, Helan Liu Fong became known fr avoiding __designs in her"
+      },
+      {
+        "id": "D",
+        "text": "das asroicre Physicist Joseph Weber performed __ werk in gravitational wave research nthe 1960s nd 1970s,"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.23",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01521",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Which choice completes the text with the most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Acadmired"
+      },
+      {
+        "id": "B",
+        "text": "B. disagreed with"
+      },
+      {
+        "id": "C",
+        "text": "C. warmed . depended on 130 asreerss âThe following texts adapted from Mohsin Hamidâs 2017 novel Et West. Saeed lives with his mother and father âOn cloudless nights after a daytime rain, Seeds father would sometimes bring out the telescape, andthe family âwould sip green tea on ther balcony, enoying a breeze, and take tums to look up at objects whose light, often, had been emitted before any of these three viewers had been bornâlight fram other centuries, only now reaching Earth. (Â©2017 by Mohsin Hamid âAs used in the text, what does the word âreachingâ most nearly mean? A. Arriving at 8. Consulting with Â©. Running to"
+      },
+      {
+        "id": "D",
+        "text": "D.Ciinging to a zacdze1 âSome people have speculated that two helmets with attached horns discovered in Denmark in 1842 belonged to Vikings, but scholars have long been skeptical. Archaeologist Helle Vandkilde and colleagues recently provided"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.29",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01522",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âVikings, but scholars have long been skeptical. Archaeologist Helle Vandkiide end colleagues recently provided radiocarbon dates for the helmets, and their findings ___ scholarsâ skepticism: the helmets date to the Nordic",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Anticipate B.inspect"
+      },
+      {
+        "id": "B",
+        "text": "Bronze Age, centuries before the Vikings existed. âwhich choice completes the text withthe most logical and precise word or phrase?"
+      },
+      {
+        "id": "C",
+        "text": "C.roveal"
+      },
+      {
+        "id": "D",
+        "text": "Dajustty"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.3",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01525",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âWhich choice completes the text with the most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.reviewed 8. defied"
+      },
+      {
+        "id": "B",
+        "text": "B required unintended unknown 135 bso7!0!__[atyo, the main character of Gene Wolfe's navel Solder ofthe Mist ia man in ancient Greece. He completely loses his memory whenever he sleeps. So, before sleeping, Latro records the important experiences ofeach day on a scoll,carefully choosing which ones to"
+      },
+      {
+        "id": "C",
+        "text": "C.respected"
+      },
+      {
+        "id": "D",
+        "text": "D. prevented 113% 73906056 _Ronyaung Kim creatively captures the Korean American immigrant experience inher novel Clay Walls by writing about a {arrily from three ___ perspectives. The first section ofthe novels from the mother Haesuâs perspective the second is {rom the father Chun's perspective, and the last is from the daughter Fayes perspective. Which choice comaletes the text with the most logical and precise word? Adistinct"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.33",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01538",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "WoT 44cet75 Atticially delivering biomolecules to plant cells is an important component of protecting plants from pathogens,",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. conceptualize B. neglect"
+      },
+      {
+        "id": "B",
+        "text": "butitiscfficult to transmit biomolecules through the layers ofthe plant cell wall. Markita del Carpio Landry and her colleagues have shown that it may be possible to___ this problem by transmitting molecules through âcarbon nanotubes, which can cross cel walls. âWhich choice completes the text withthe most logical and precige word or phrase?"
+      },
+      {
+        "id": "C",
+        "text": "C.ilustrate"
+      },
+      {
+        "id": "D",
+        "text": "D. overcome"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.46",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01541",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âWhich choice completes the text with the most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. surpassed by 8. comparable to"
+      },
+      {
+        "id": "B",
+        "text": "be preserved. âWhich choice completes the text withthe most logical and precise word or phrase? A. catastrophic B.eusive C.abrupt Da limminent ast Taste Particle physicist like Ayana Holloway Arce and Aida El-Khadra spend much oftheir time __ what is invisible to the naked eye: using sophisticated technology they closely examine the behavior of subatomic particles, the smallest detectable parts of matter. Which shunt eomumiptme tine teat writs the meet lowles) ere) eremieur vere ex vheaseâÂ®"
+      },
+      {
+        "id": "C",
+        "text": "C. independent of"
+      },
+      {
+        "id": "D",
+        "text": "D. obtained from 1so antec âThe Cambrian explosion ges its name from the sudden appearance and rapid lversification of animal remains in âthe fossil record about 541 millon years ago, during the Cambrian period. Some scientists argue that this __ âchange inthe fossil record might be because ofa sift in many organisms to body types that were more likely to"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 1.pdf",
+    "sourceQuestionNumber": "1.49",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01552",
+    "subject": "reading-writing",
+    "domain": "Expression of Ideas",
+    "skill": "Transitions",
+    "group": "Expression of Ideas — Transitions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "8. Previously,",
+    "choices": [
+      {
+        "id": "A",
+        "text": "artworks, and results have been impressive overall. these bacterial stainsâwhich can metabolize âcenturiesâ worth of ol, ele, dit, and other surface impurities without creating harmful byproductsâhave proven âmore effective than tracitional chemical cleaning methods. âWhich choice completes the text withthe most logical transition? A. However,"
+      },
+      {
+        "id": "B",
+        "text": "B.Inmany cases, Â©.Asarosuit, . Adsitionaly, 26 zecfot âAlexander Lawrence Posey (1873-1908) varied his focus and tone depending on the gen in which he was âwriting. n hs pooty, he used heartfelt language to evoke the beauty and peacefulness of his natural surroundings in his journalism, __he employed humor and satie to comment on politcal ssues affecting his Muskogee Creek community. âWhich choice completes the text withthe most logical transition?"
+      },
+      {
+        "id": "C",
+        "text": "C.As a result,"
+      },
+      {
+        "id": "D",
+        "text": "D.Likewise, 23 s0r%ce For years, biologists have experimented with using grime-eating bacteria rather than harsh chemicals to lean"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Read the sentence before and after the blank.",
+    "hint2": "Decide what relationship the ideas have: contrast, cause, continuation, example, or sequence.",
+    "hint3": "Pick the transition that expresses that relationship precisely, not merely one that sounds natural.",
+    "source": "Transitions 2.pdf",
+    "sourceQuestionNumber": "2.2",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01562",
+    "subject": "reading-writing",
+    "domain": "Expression of Ideas",
+    "skill": "Transitions",
+    "group": "Expression of Ideas — Transitions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Which choice completes the text with the most logical transition? Thus,",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. For example, 8. Therefore, Â©. Simiary, D.Finally, 2a rrecoaos âwhen in the 1800s, geologist fist realized that much of Earth had once been covered by great sheets of ice, some theorized thatthe phenomenon was cycical, occurring at regular intervals. Each Ice Age Is so destructive, nossesh that it lnreseihy ermews the eemiineiiea) euricheren mf ihe tpatierseenr _omahrunfote smre coabhn te"
+      },
+      {
+        "id": "B",
+        "text": "B.n addition,"
+      },
+      {
+        "id": "C",
+        "text": "C.By comparison, . Specialy, 213 25zctecs__Scjentlsts long debated the origins of chondrules tiny glass beads that formed in meteors billions of years ago. For decades,"
+      },
+      {
+        "id": "D",
+        "text": "different theories were proposed, from lightning strikes to powerful rock collision, but none had sufficient evidentiary âsupport._ scientists found strong evidence that chondrules were formed by shock waves in nearby nebulae. Which choice completes the text with the most logical transition?"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Read the sentence before and after the blank.",
+    "hint2": "Decide what relationship the ideas have: contrast, cause, continuation, example, or sequence.",
+    "hint3": "Pick the transition that expresses that relationship precisely, not merely one that sounds natural.",
+    "source": "Transitions 2.pdf",
+    "sourceQuestionNumber": "2.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01575",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âWhich choice completes the text with the most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. hypothesis .afinity anomaly"
+      },
+      {
+        "id": "B",
+        "text": "but biologists Shalene Jha and Claire Kremen showed that beesâ behavior is inconsistent with this prediction if flowers in dense patches are __: bees will forage beyond patches of low species richness to acquire multiple resource types. âWhich choice completes the text withthe most logical and precise word or phrase? âA depleted Â£8. homogeneous"
+      },
+      {
+        "id": "C",
+        "text": "C.immature Di dispersed 39 stone Investigating whether shared false visual memorlesâspeeific but inaccurate and widely held recollections of images such as product logos~are caused by people's previous ___ incorrect rentions ofthe images, researchers Deepasi Prasad and Wma Bainbridge found tha, infact, such memaries are often not explained by âfamiliarity with erroneous versions of the images."
+      },
+      {
+        "id": "D",
+        "text": "D.caraboration 3a sacsaase Some foraging models predict thatthe distance bees travel when foraging will decline as floral density increases,"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 3.pdf",
+    "sourceQuestionNumber": "3.7",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01580",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âsurprising that the existence of planets in such systems has lacked _ explanation. Roman Rafikov and Kedron Silsbee shed light onthe subject when they used modeling o determine a complex set of factors that âcould support planetsâ development. âWhich choice completes the text withthe most logical and precise word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Aa discernible 8.2 straightfomard"
+      },
+      {
+        "id": "B",
+        "text": "Bas crasre66 Itis by no means ___ to recognize the influence of Dutch painter Hieronymus Bosch on Al Banisade's paintings; indeed, Banisadr himself cites Bosch as an inspiration. However, some scholars have suggested that the ancient Mesopotamian poem Epic of Gilgamesh may have had afar greater impact on Banisadr's work. âWhich choice completes the text with the most logical and precise word or phrase? A. substantial 8. satisfying . unimportant D. appropriate 316 fesfoaab âSome scientists have suggested that mammals in the Mesozoic era were nota very___ group, but"
+      },
+      {
+        "id": "C",
+        "text": "C.aninconclusive"
+      },
+      {
+        "id": "D",
+        "text": "Danunbiased"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 3.pdf",
+    "sourceQuestionNumber": "3.12",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01641",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Text Structure and Purpose",
+    "group": "Craft and Structure — Text Structure and Purpose",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Tae BOE SE TOW atlas in relatively warm climates in southeast âsia as wel. âhich choice best states the function of the undertined portion inthe text as a wile?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. Itdismisses as untrue the research presented inthe previous sentence, 8. defines @ term used inthe description that follows inthe rest ofthe sentence."
+      },
+      {
+        "id": "B",
+        "text": "Black freedom seekers leaving the South before the US Chil War. Much of the historical evidence ofthis help, âcomes from Incigenous oral traditions and from autobiographies written by the freedom seekers. One such natrative is Jecmain Loaven'sautobiograpty, which tells about how NeshnabÃ© (Potawatomi vllagets offered im âood, lodging. and directions during his 1835 journey trom Tennessee to Canada, âWhich choice best describes the function af the underined sentence? |. tprovides an example ofan autobiography that describes help given by an indigenous people to @ Black âfreedom secker. 8B. It shows why Loguen decided to writ in great detal about his experiences traveling from Tennessee to Canada in his autobiography. â¬.ttargues that autobiographies are particularly important sources of information about geography in the United States before the Chil War Dit suggests that most historians believe that NeshrabÃ© vllagers vere more successful in assisting freedom âccoheve than other pammlie vere,"
+      },
+      {
+        "id": "C",
+        "text": "C.ttemphasizes the main goal of the research introduced inthe previous sentence."
+      },
+      {
+        "id": "D",
+        "text": "D. tt provides context that clarifies the significance ofthe information that follows inthe rest of the sentence. 1s ease Historians Tia Miles and Roy E, Finkenbine have both documented the assistance Indigenous peoples gave to"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Identify the role the highlighted sentence or detail plays in the passage.",
+    "hint2": "Consider what the writer is trying to accomplish at that point: introduce, illustrate, contrast, support, or conclude.",
+    "hint3": "Choose the answer that describes the function in context rather than merely repeating the sentence content.",
+    "source": "Text Structure and Purpose 1.pdf",
+    "sourceQuestionNumber": "1.2",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01648",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Text Structure and Purpose",
+    "group": "Craft and Structure — Text Structure and Purpose",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Text, Structure, and Purpose 1 19 seesord âThe following text is rom Holly Goldberg Sloan's 2017 novel Shot More than two years ago my parents bought a piano from some people who were moving to Utah, Mom and",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. It explains why the naratoralvays wanted a piano close to her bedroom. 8. Itestablshes how the narator feels about the plano,"
+      },
+      {
+        "id": "B",
+        "text": "but pretty much hate the thing from the second twas carted ito the halvay upstais, which s ight nxt to my bedroom. The piano glared at me. It was lke a songbird in a cage. it wanted to beset fre. {Â©2017 by Holy Goldberg Sloan âWhich choice best slates the main purpose ofthe text?"
+      },
+      {
+        "id": "C",
+        "text": "C. It suggest thatthe narator's brothers ae talented piano players. Dit describes the event that led the narrators parents to buy a piano. 140 veen4ae Jackie Ormes'sTorehy Brown in Di to Harlem (1037-38) was the fst comic strip bya Black woman to aposar ina widely read newspaper. The stip tals the story of Torch, young woman who leaves Missisinpite became âa performer in Now York City. Torchy's story reflects the experience of the Great Migration (1910-1970), when"
+      },
+      {
+        "id": "D",
+        "text": "Dad gave it to my brothers and me for Cvitmas. had to act realy happy because it was auch abig present,"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Identify the role the highlighted sentence or detail plays in the passage.",
+    "hint2": "Consider what the writer is trying to accomplish at that point: introduce, illustrate, contrast, support, or conclude.",
+    "hint3": "Choose the answer that describes the function in context rather than merely repeating the sentence content.",
+    "source": "Text Structure and Purpose 1.pdf",
+    "sourceQuestionNumber": "1.9",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01664",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Form, Structure, and Sense",
+    "group": "Standard English Conventions — Form, Structure, and Sense",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "â¬. the use of drinking straws by Sumerians in ancient Mesopotamia happened Â©. ancient Mesopotamia was home to Sumerians who used drinking straws 23 cszsmea âThe human brain is primed to recognize faces~s0 much so that, due toa perceptual tendency called pareidolia, will even find faces in clouds, wooden doors pieces of fut, and other faceless inanimate objects. Researcher Susan Magsamen has focused her work on better understanding this everyday phenomenon. âWhich choice completes the text so that it conforms to the conventions of Standard English?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ashe"
+      },
+      {
+        "id": "B",
+        "text": "B.they"
+      },
+      {
+        "id": "C",
+        "text": "cit"
+      },
+      {
+        "id": "D",
+        "text": "D.those 2 seDKese7 Official measurements ofthe Mississippi River's length vary: according tothe US Geologie Survey, the rivers 2300 mites long, whereas the Envconmental Protection Agency records its length as 2,320 miles. This disparity âcanbe explained in part by the fact that rivers such asthe Mississipi expand and contract as____seciment. âWhich choice completes the text so that it conforms to the conventions of Standard English? A. they accumulate 8. one accumulates been"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Form, Structure, and Sense 2.pdf",
+    "sourceQuestionNumber": "2.2",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01669",
+    "subject": "reading-writing",
+    "domain": "Standard English Conventions",
+    "skill": "Form, Structure, and Sense",
+    "group": "Standard English Conventions — Form, Structure, and Sense",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "8. are evoking",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A.ascended 8. will ascend C.ascends Duis ascencing 29Â° ssoserta Nuhdd al-Haddd, known as Feruz, was one ofthe mast beloved Lebanese singers of the twentieth century. Her"
+      },
+      {
+        "id": "B",
+        "text": "broad singing repertoireâwhich included traditional forms, such asthe Arabic qasida and maqam, alongside âmodern pop and azz styleslentFaruz a timeless, cross-generational appeal, ___her the moniker âthe soul âof Lebanon.â âWhich choice completes the text so that it conforms tothe conventions of Standard English? Aenea"
+      },
+      {
+        "id": "C",
+        "text": "C.have evoked"
+      },
+      {
+        "id": "D",
+        "text": "Di evoke 28 so2eÂ«soa By the time Hawaian king Kamehameha Il_ the throne, the number of longhorn cattle, frst introduced to âthe islands in 1793, had drastically increased, and so too had the need for panialo (Hawaiian cowboys) to manage âthe ile herds tha then roamed throughout the voleanic terrain, âWhich choice completes the text so that it conforms tothe conventions of Standard English?"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Read the full passage and identify exactly what the question is asking.",
+    "hint2": "Use the surrounding context and the most relevant evidence or grammatical rule.",
+    "hint3": "Eliminate choices that are too broad, too narrow, unsupported, or inconsistent with the passage.",
+    "source": "Form, Structure, and Sense 2.pdf",
+    "sourceQuestionNumber": "2.7",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01712",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Central Ideas and Details",
+    "group": "Information and Ideas — Central Ideas and Details",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "olf of i IES",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Assessment Test Domain skill Ditticutty sar âReading and Writing | Information and Central Ideas and Teas Details mec 1D: 2312021b"
+      },
+      {
+        "id": "B",
+        "text": "B. Historians believe thatthe Gestaprincipum Polonorum provides more evidence for Siemomyst existence than it does {for Mieszko Il Lambert's existence."
+      },
+      {
+        "id": "C",
+        "text": "C. Historians agree that Siemomyst ruled Poland much later than Mieszko Il Lambert. Historians find the orally transmitted stores affirming the existence of Mieszko I Lambert to be more convincing than siemlar stories about Semomysl 227 2070 Question ID 2312021b"
+      },
+      {
+        "id": "D",
+        "text": "documented figures lke Siemomyst, who is said to have rule inthe 10th century but whose historical actuality is disputed. Siemomyst appears in the Gesta princjpum Polonorum, a chronicle of medieval Polish history written between 1112 and 1178. However, the chronicles documentation of Slemomys relies on oral tradition, unlike its records of ater rulers. âAccording tothe text, what isa difference between how historians view Siemomysl and how they view Mieszko Il Lambert? |A Historians agree that Mieszko Il Lambert existe, but disagree about whether Siemomys! existed."
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Central Ideas and Details 2.pdf",
+    "sourceQuestionNumber": "2.26",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01744",
+    "subject": "reading-writing",
+    "domain": "Expression of Ideas",
+    "skill": "Transitions",
+    "group": "Expression of Ideas — Transitions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âA. Inother words, 8, Regarless,",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. Similar, 8. For instance, C.Nevertheess, D.Asaresuit,"
+      },
+      {
+        "id": "B",
+        "text": "buttresses eliminated this need. ___ Gothic cathedrals could be bult with thinner, higher wal âWhich choice completes the text withthe most logical transition?"
+      },
+      {
+        "id": "C",
+        "text": "C.In conclusion,"
+      },
+      {
+        "id": "D",
+        "text": "D.Forexamle, 1S otedeaca In Gothic architecture, tying buttresses ae large arches that help support a building's exterior walls. Before the Gothic era, cathedralsâ heavy celings had tobe supported by tick, short walls, but the invention offing"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Read the sentence before and after the blank.",
+    "hint2": "Decide what relationship the ideas have: contrast, cause, continuation, example, or sequence.",
+    "hint3": "Pick the transition that expresses that relationship precisely, not merely one that sounds natural.",
+    "source": "Transitions 1.pdf",
+    "sourceQuestionNumber": "1.3",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01758",
+    "subject": "reading-writing",
+    "domain": "Expression of Ideas",
+    "skill": "Transitions",
+    "group": "Expression of Ideas — Transitions",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Which choice completes the text with the most logical transition?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A For example,"
+      },
+      {
+        "id": "B",
+        "text": "B. Specifically,"
+      },
+      {
+        "id": "C",
+        "text": "C.Firsty, 2. By contrast, waa ascaras In 1891, dancer and choreographer Loie Fuller frst performed her celebrated Serpentine Dance, artfully twiting her long, flowing skit to create striking visual effects In 1886, cinema pioneers Auguste and Louis Lumire made a groundbreaking short fim of Fuller's dance. âWhich choice completes the text withthe most logical transition? A. However, 8. Inconctusion, Cuter,"
+      },
+      {
+        "id": "D",
+        "text": "Dilnather words, aaa aseonase Riley Blackâthe author of critically acclaimed books such as My Beloved Brontosaurus (2013)âis best known for âwriting about dinosaurs, but she has also conducted hands-on fieldwork her feldwork has included Paleontological digs in Utah, Montana, ane Wyoming, and her dinosaur fossil dlscoveres can be seen at places âsuch asthe Carnegie Museum of Natural History,"
+      }
+    ],
+    "correctAnswer": "D",
+    "explanation": "",
+    "hint1": "Read the sentence before and after the blank.",
+    "hint2": "Decide what relationship the ideas have: contrast, cause, continuation, example, or sequence.",
+    "hint3": "Pick the transition that expresses that relationship precisely, not merely one that sounds natural.",
+    "source": "Transitions 1.pdf",
+    "sourceQuestionNumber": "1.17",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01783",
+    "subject": "reading-writing",
+    "domain": "Information and Ideas",
+    "skill": "Inferences",
+    "group": "Information and Ideas — Inferences",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "Inferences1 1S esaesoo1 -Archeeologits have been debating the origin of arate frm of lad found in Shang dynasty (1766-1046 BCE)",
+    "choices": [
+      {
+        "id": "A",
+        "text": "atifacts, but ne conclusive evidence has been presented, Whats intriguing is that bronze artifacts from China"
+      },
+      {
+        "id": "B",
+        "text": "bronze artifacts since its presence was dlacovered in China in the 1990s. Different researchers have proposed theories on which regions ofthe worl would have ha the raw materials containing the specific lead in these"
+      },
+      {
+        "id": "C",
+        "text": "C. bronze was used fora short time during the Shang dynasty before diferent metals were used to make aritact. Â©, methods used to analyze bronze arifacs are not usefulon pices that are dated ater the Shang dynasty 16 dbboesad Oif-off-Broadway theaters emerged in the late 1950 asa rebelion against mainstream Broadway theaters in New York, freeing artists to create productions that were more experimental than typical Broadway shows. One such artist was playwright Marla irene FornÃ©s. Working with off-off Broadway theaters enabled FornÃ©s not only to"
+      },
+      {
+        "id": "D",
+        "text": "dated after the Shang dynasty do not contain this form of lea, suggesting that âWihich choice most lgically comptes the text? |. Shang dynasty bronze places are rare and therefor mare valuable than those from other te periods 28. the source of some ofthe raw materials used to make bronze was exploited only uti the end of the Shang dynasty"
+      }
+    ],
+    "correctAnswer": "B",
+    "explanation": "",
+    "hint1": "Focus on what the question asks you to identify, not on every detail in the passage.",
+    "hint2": "Find the sentence or evidence that most directly supports the claim you need.",
+    "hint3": "Eliminate choices that add information, overstate the passage, or rely on evidence that is not actually present.",
+    "source": "Inferences 1.pdf",
+    "sourceQuestionNumber": "1.5",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01796",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "identifying broad similarities between two seemingly different phenomena, Hu used information about how ants. âmove inside colonies to calculate how the particles of ight that make up laser beams trav! through snow. âWhich choice comptes the text withthe most logical and precise word or phrase? â2 collaboration",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. exposed B.asserted"
+      },
+      {
+        "id": "B",
+        "text": "Bian accessory .a contradiction"
+      },
+      {
+        "id": "C",
+        "text": "C. discovered D. doubted"
+      },
+      {
+        "id": "D",
+        "text": "D.ananalogy 25 sbasbosi âA journalist and well-respected art eit of nineteenth-century Ertan, Lady Elizabeth Rigby Eastlake did not hesitate to publish reviews that went against popular opinion. One of her most divisive works was an essay âquestioning the idea of photography as an emerging medium for fine atin the essay, Eastake thatthe value of photographs was informational rather than creative. âWhich choice completes the text withthe most logical and precige word or phrase?"
+      }
+    ],
+    "correctAnswer": "C",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 2.pdf",
+    "sourceQuestionNumber": "2.3",
+    "ocr": true
+  },
+  {
+    "id": "ocr-01801",
+    "subject": "reading-writing",
+    "domain": "Craft and Structure",
+    "skill": "Words in Context",
+    "group": "Craft and Structure — Words in Context",
+    "difficulty": "unknown",
+    "passage": "",
+    "question": "âWhich choice completes the text withthe most logical and precige word or phrase?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "A. recommend"
+      },
+      {
+        "id": "B",
+        "text": "B.citcize Â©. impede"
+      },
+      {
+        "id": "C",
+        "text": "C. ongoing uniform"
+      },
+      {
+        "id": "D",
+        "text": "D.eonstruct 210 bees2759 Mineralogical differences are detectable in samples collected from two locations onthe near-Earth astereid Ryugu, but such differences may not indicate substantial compositional variation in the asteroid Cosmochemist Kazuhide Nagashima and colleagues note that atthe small scale of the samples, the dstribution of minerals is unlikely tobe. âWhich choice completes the text with the most logical and precise word or phrase? A.neglected 8. redundant"
+      }
+    ],
+    "correctAnswer": "A",
+    "explanation": "",
+    "hint1": "Use the surrounding sentence to determine what the blank needs to mean.",
+    "hint2": "Replace the blank with your own word before looking for a choice.",
+    "hint3": "Check that the choice fits both the meaning and tone of the passage.",
+    "source": "Words in Context 2.pdf",
+    "sourceQuestionNumber": "2.8",
+    "ocr": true
   }
 ];

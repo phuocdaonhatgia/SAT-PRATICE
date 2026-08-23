@@ -184,7 +184,6 @@ function renderModal() {
 
       <div class="errlog-modal__actions">
         <button class="btn btn--primary" id="retry-similar-btn">Try a Similar Question</button>
-        <a class="btn btn--secondary" href="ai-tutor.html?questionId=${entry.questionId}">Ask AI Tutor</a>
         <button class="btn btn--secondary" id="mark-fixed-btn" ${entry.status === "fixed" ? "disabled" : ""}>
           ${entry.status === "fixed" ? "Marked as Fixed" : "Mark as Fixed"}
         </button>
