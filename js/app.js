@@ -30,13 +30,16 @@ const NAV_ITEMS = [
   { key: "practice",   label: "Practice",       href: "practice.html",        icon: ICONS.practice },
   { key: "vocabulary", label: "Vocabulary",     href: "vocabulary.html",      icon: ICONS.vocabulary },
   { key: "errorlog",   label: "Error Log",      href: "error-log.html",       icon: ICONS.errorlog },
-  { key: "progress",   label: "Progress",       href: "progress.html",        icon: ICONS.progress },
-  { key: "tests",      label: "Practice Tests", href: "practice-tests.html",  icon: ICONS.tests }
+  { key: "progress",   label: "Progress",       href: "progress.html",        icon: ICONS.progress }
 ];
 
 function renderSidebar(activeKey) {
   const mount = document.getElementById("sidebar-mount");
   if (!mount) return;
+
+  // Visiting any page counts as today's activity — streak is 1 the first
+  // time the student shows up, and increments once per consecutive day.
+  if (typeof GamificationService !== "undefined") GamificationService.recordActivity();
 
   const navHtml = NAV_ITEMS.map(item => `
     <a class="sidebar__link ${item.key === activeKey ? "is-active" : ""}" href="${item.href}">
@@ -55,8 +58,8 @@ function renderSidebar(activeKey) {
       <div class="sidebar__user">
         <div class="sidebar__avatar">GP</div>
         <div>
-          <div class="sidebar__user-name">Gia Phước</div>
-          <div class="sidebar__user-role">Grade 11 · Target 1450</div>
+          <div class="sidebar__user-name">Khánh Ngọc</div>
+          <div class="sidebar__user-role">Grade 11 · Target 1600</div>
         </div>
       </div>
     </div>

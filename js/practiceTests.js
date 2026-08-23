@@ -1,19 +1,8 @@
 /**
  * practiceTests.js — drives practice-tests.html (spec mục 11 + mục 14).
+ * allSkillNames / poolForArea / computeComposition now live in
+ * compositionHelpers.js (shared with learningSprint.js).
  */
-
-/* ---------------- helpers shared with the weak-area logic ---------------- */
-function allSkillNames() {
-  const rw = QuestionProvider.getDomainsForSubject("reading-writing").flatMap(d => d.skills);
-  const math = QuestionProvider.getDomainsForSubject("math").flatMap(d => d.skills);
-  return new Set([...rw, ...math]);
-}
-
-function poolForArea(skillOrTag) {
-  const skills = allSkillNames();
-  if (skills.has(skillOrTag)) return QuestionProvider.filterQuestions({ skills: [skillOrTag] });
-  return QuestionProvider.filterQuestions({ tag: skillOrTag });
-}
 
 /* ---------------- Full Practice ---------------- */
 function startFullPractice() {
@@ -35,28 +24,6 @@ function startMiniTest(count) {
 }
 
 /* ---------------- Personalized "Build My Mini Test" ---------------- */
-function computeComposition(total = 10) {
-  const areas = DASHBOARD_DATA.weakAreas;
-  const weights = areas.map(a => Math.max(100 - a.accuracy, 1));
-  const sumW = weights.reduce((a, b) => a + b, 0);
-
-  const raw = areas.map((a, i) => ({
-    skill: a.skill,
-    exact: (total * weights[i]) / sumW
-  }));
-
-  const counts = raw.map(r => ({ skill: r.skill, count: Math.floor(r.exact), rem: r.exact - Math.floor(r.exact) }));
-  let assigned = counts.reduce((s, c) => s + c.count, 0);
-  let remainder = total - assigned;
-
-  const byRemDesc = counts.slice().sort((a, b) => b.rem - a.rem);
-  for (let i = 0; i < remainder; i++) {
-    byRemDesc[i % byRemDesc.length].count++;
-  }
-
-  return counts.filter(c => c.count > 0);
-}
-
 function renderPersonalizedCard() {
   const composition = computeComposition(10);
   const mount = document.getElementById("comp-list");

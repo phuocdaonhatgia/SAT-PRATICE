@@ -47,6 +47,16 @@ const VocabService = (() => {
     return getWordsByStatus("review");
   }
 
+  /** Ordered list of unique topic groups present in the word bank. */
+  function getGroups() {
+    return [...new Set(VOCAB_DATA.map(w => w.group))];
+  }
+
+  function getWordsByGroup(group) {
+    if (!group || group === "all") return VOCAB_DATA;
+    return VOCAB_DATA.filter(w => w.group === group);
+  }
+
   function counts() {
     const progress = getAllProgress();
     let known = 0, review = 0, fresh = 0;
@@ -112,6 +122,7 @@ const VocabService = (() => {
   return {
     getAllWords, getWordById, getProgress, getAllProgress,
     markKnown, markReview, getWordsByStatus, getMissedWords, counts,
-    getDailyWords, generateWordsForLevel, recordQuizResult, getQuizHistory, shuffle
+    getDailyWords, generateWordsForLevel, recordQuizResult, getQuizHistory, shuffle,
+    getGroups, getWordsByGroup
   };
 })();

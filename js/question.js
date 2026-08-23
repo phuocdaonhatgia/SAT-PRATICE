@@ -235,6 +235,10 @@ function renderHintPanel(q, answerState) {
     <div class="qpanel">
       <div class="qpanel__head">${ICONS.lightbulb} Hint ${level} of 4 · ${levelLabel}</div>
       <div class="qpanel__text">${text}</div>
+      ${level >= 4 ? `
+        <div class="hr" style="margin:14px 0 12px;"></div>
+        <a class="link-btn" href="ai-tutor.html?questionId=${q.id}">Still stuck? Ask the AI Tutor →</a>
+      ` : ""}
     </div>
   `;
 }
@@ -315,6 +319,7 @@ function submitAnswer() {
   if (!correct) {
     ErrorLogService.logMistake(currentQuestion, answerState.selected);
   }
+  if (typeof GamificationService !== "undefined") GamificationService.recordAnswer(currentQuestion, correct);
   renderQuestion();
 }
 
@@ -376,12 +381,80 @@ function finishSession() {
   }
   const correctCount = session.questionIds.filter(id => session.answers[id]?.correct).length;
   const answeredCount = session.questionIds.filter(id => session.answers[id]?.submitted).length;
-  renderSummary({ total, answered: answeredCount, correct: correctCount });
+  if (typeof GamificationService !== "undefined") GamificationService.recordSessionFinished();
+  renderReflection({ total, answered: answeredCount, correct: correctCount });
+}
+
+function weakestSkillThisSession() {
+  const bySkill = {};
+  session.questionIds.forEach(id => {
+    const a = session.answers[id];
+    if (!a || !a.submitted) return;
+    const q = QuestionProvider.getQuestionById(id);
+    if (!bySkill[q.skill]) bySkill[q.skill] = { correct: 0, total: 0 };
+    bySkill[q.skill].total += 1;
+    if (a.correct) bySkill[q.skill].correct += 1;
+  });
+  let weakest = null;
+  Object.entries(bySkill).forEach(([skill, s]) => {
+    const acc = s.correct / s.total;
+    if (!weakest || acc < weakest.acc) weakest = { skill, acc, ...s };
+  });
+  return weakest;
+}
+
+/** Spec mục 20 — Learning Reflection, shown right after finishing a session. */
+function renderReflection(stats) {
+  document.getElementById("qbody").innerHTML = `
+    <div class="card" style="max-width:640px; margin:0 auto;">
+      <div class="card__head"><span class="card__title">Reflection</span></div>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div>
+          <div style="font-size:13.5px; font-weight:600; margin-bottom:6px;">What was the biggest mistake you made?</div>
+          <textarea class="text-input" id="refl-1" placeholder="Type your answer..."></textarea>
+        </div>
+        <div>
+          <div style="font-size:13.5px; font-weight:600; margin-bottom:6px;">What strategy helped you?</div>
+          <textarea class="text-input" id="refl-2" placeholder="Type your answer..."></textarea>
+        </div>
+        <div>
+          <div style="font-size:13.5px; font-weight:600; margin-bottom:6px;">What will you do differently next time?</div>
+          <textarea class="text-input" id="refl-3" placeholder="Type your answer..."></textarea>
+        </div>
+        <button class="btn btn--primary btn--block" id="reflection-continue-btn">Continue</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("reflection-continue-btn").addEventListener("click", () => {
+    const reflection = {
+      biggestMistake: document.getElementById("refl-1").value.trim(),
+      helpfulStrategy: document.getElementById("refl-2").value.trim(),
+      nextTimeAction: document.getElementById("refl-3").value.trim(),
+      createdAt: new Date().toISOString(),
+      sessionSource: session.meta?.source || "practice"
+    };
+    Storage.push("learningReflections", reflection);
+    renderSummary(stats);
+  });
 }
 
 function renderSummary({ total, answered, correct }) {
   clearInterval(sessionTimerHandle);
   const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  const weakest = weakestSkillThisSession();
+
+  let insight, nextAction;
+  if (weakest && weakest.acc < 0.6) {
+    insight = `You struggled most with <b>${weakest.skill}</b> this session (${weakest.correct}/${weakest.total} correct) — worth a closer look before your next test.`;
+    nextAction = `For your next 5 ${weakest.skill} questions, use the hint system before guessing, and write your reasoning in the Error Log once you're done.`;
+  } else if (accuracy >= 85) {
+    insight = `Strong session — ${accuracy}% accuracy. You're ready to push into harder difficulty on these skills.`;
+    nextAction = `Try a Custom Test on these same skills at "Hard" difficulty to keep building.`;
+  } else {
+    insight = `Solid, steady progress this session at ${accuracy}% accuracy.`;
+    nextAction = `Review any "Needs Review" items in your Error Log, then try a Mini Test to reinforce what you practiced.`;
+  }
+
   document.getElementById("qbody").innerHTML = `
     <div class="card" style="text-align:center; padding:44px 28px;">
       <div style="font-family:var(--font-display); font-size:22px; font-weight:700; margin-bottom:6px;">
@@ -400,6 +473,16 @@ function renderSummary({ total, answered, correct }) {
           <div style="font-size:12px; color:var(--text-400);">Correct</div>
         </div>
       </div>
+
+      <div class="qpanel" style="text-align:left; margin-bottom:14px;">
+        <div class="qpanel__head">${ICONS.lightbulb} Your Learning Insight</div>
+        <div class="qpanel__text">${insight}</div>
+      </div>
+      <div class="qpanel qpanel--result" style="text-align:left; margin-bottom:26px;">
+        <div class="qexplain-title" style="margin-top:0;">Next Action</div>
+        <div class="qpanel__text">${nextAction}</div>
+      </div>
+
       <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
         <a href="practice.html" class="btn btn--primary">Practice Again</a>
         <a href="error-log.html" class="btn btn--secondary">Review Mistakes</a>

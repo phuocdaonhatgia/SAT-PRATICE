@@ -1,6 +1,6 @@
 {
   "student": {
-    "name": "Gia Phước",
+    "name": "Khánh Ngọc",
     "streakDays": 7,
     "xp": 1240,
     "level": 6
@@ -8,7 +8,7 @@
   "score": {
     "total": 1280,
     "max": 1600,
-    "target": 1450,
+    "target": 1600,
     "readingWriting": 650,
     "readingWritingMax": 800,
     "math": 630,

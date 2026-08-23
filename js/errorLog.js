@@ -27,7 +27,6 @@ const ErrorLogService = (() => {
       correctAnswer: question.correctAnswer,
       createdAt: new Date().toISOString(),
       errorType: null,       // set by the student on the Error Log page
-      reasoning: null,       // student's free-text reflection answer
       correctStrategy: null, // auto-suggested once errorType is set
       status: "review"       // review | progress | fixed
     };
@@ -56,10 +55,6 @@ const ErrorLogService = (() => {
     return updateEntry(id, { errorType, correctStrategy: strategy, status: "progress" });
   }
 
-  function setReasoning(id, reasoning) {
-    return updateEntry(id, { reasoning });
-  }
-
   function setStatus(id, status) {
     return updateEntry(id, { status });
   }
@@ -74,5 +69,5 @@ const ErrorLogService = (() => {
     };
   }
 
-  return { logMistake, getAll, getById, updateEntry, setErrorType, setReasoning, setStatus, counts };
+  return { logMistake, getAll, getById, updateEntry, setErrorType, setStatus, counts };
 })();

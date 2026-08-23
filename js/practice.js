@@ -160,13 +160,12 @@ function startPractice() {
 }
 
 function startWeakAreaSession() {
-  const weakSkills = ["Inference", "Transitions", "Linear Equations"];
+  const weakList = (typeof GamificationService !== "undefined") ? GamificationService.getSkillAccuracyList(1) : [];
+  const weakSkills = weakList.length > 0
+    ? weakList.slice(0, 4).map(w => w.skill)
+    : ["Inference", "Transitions", "Linear Equations"]; // sensible default before the student has any real data
   const bySkill = QuestionProvider.filterQuestions({ skills: weakSkills });
-  const byGrammarTag = QuestionProvider.filterQuestions({ tag: "Grammar" });
-  const merged = [...bySkill, ...byGrammarTag].filter(
-    (q, i, arr) => arr.findIndex(x => x.id === q.id) === i
-  );
-  const ids = QuestionProvider.shuffle(merged).slice(0, Math.min(12, merged.length)).map(q => q.id);
+  const ids = QuestionProvider.shuffle(bySkill).slice(0, Math.min(12, bySkill.length)).map(q => q.id);
   SessionManager.createSession(ids, { source: "weak-areas", label: "Weak Areas Practice" });
   window.location.href = "question.html";
 }

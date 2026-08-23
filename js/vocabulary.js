@@ -2,9 +2,9 @@
  * vocabulary.js — drives vocabulary.html (spec mục 12-13).
  */
 
-let flashcardState = null;   // { deck, index, flipped, label }
 let quizState = null;        // { questions, index, score, finished }
-let browseFilters = { search: "", difficulty: "all" };
+let browseFilters = { search: "", difficulty: "all", group: "all" };
+let dailyOverride = null;    // { words, label } — set when a personalized/custom set replaces today's words
 
 function switchTab(tab) {
   document.querySelectorAll(".vocab-tab").forEach(t => t.classList.toggle("is-active", t.dataset.tab === tab));
@@ -12,7 +12,6 @@ function switchTab(tab) {
   if (tab === "daily") renderDailyPane();
   if (tab === "browse") renderBrowsePane();
   if (tab === "missed") renderMissedPane();
-  if (tab === "flashcards") renderFlashcardPane();
   if (tab === "quiz") renderQuizPane();
 }
 
@@ -26,32 +25,82 @@ function renderStats() {
   `;
 }
 
+/**
+ * Word cards double as mini flashcards: clicking "Learn it" (or the card face)
+ * flips the card with a 3D animation to reveal the Vietnamese meaning on the back.
+ */
 function wordCard(w, { showActions = true } = {}) {
   const progress = VocabService.getProgress(w.id);
   const dotClass = progress.status === "known" ? "status-dot--known"
     : progress.status === "review" ? "status-dot--review" : "status-dot--new";
   return `
-    <div class="word-card" data-word-id="${w.id}">
-      <div class="word-card__head">
-        <span class="word-card__word">${w.word}</span>
-        <span class="status-dot ${dotClass}" title="${progress.status}"></span>
+    <div class="word-card word-card--flip" data-word-id="${w.id}">
+      <div class="word-card__inner">
+        <div class="word-card__face word-card__face--front" data-flip-trigger="${w.id}">
+          <div class="word-card__head">
+            <span class="word-card__word">${w.word}</span>
+            <span class="status-dot ${dotClass}" title="${progress.status}"></span>
+          </div>
+          <div class="word-card__def">${w.definition}</div>
+          ${w.group ? `<div class="word-card__group-tag">${w.group}</div>` : ""}
+          ${showActions ? `
+            <div class="word-card__actions">
+              <button class="btn btn--sm btn--secondary" data-action="learn" data-word-id="${w.id}">Learn it</button>
+              <button class="btn btn--sm btn--ghost" data-action="review" data-word-id="${w.id}">Review again</button>
+            </div>` : ""}
+        </div>
+        <div class="word-card__face word-card__face--back" data-flip-trigger="${w.id}">
+          <div class="word-card__vietnamese">${w.vietnamese || ""}</div>
+          <div class="word-card__def word-card__def--muted">${w.definition}</div>
+          <div class="word-card__example">"${w.example}"</div>
+          ${showActions ? `
+            <div class="word-card__actions">
+              <button class="btn btn--sm btn--primary" data-action="got-it" data-word-id="${w.id}">Đã thuộc ✓</button>
+              <button class="btn btn--sm btn--ghost" data-action="review" data-word-id="${w.id}">Review again</button>
+            </div>` : ""}
+        </div>
       </div>
-      <div class="word-card__def">${w.definition}</div>
-      ${showActions ? `
-        <div class="word-card__actions">
-          <button class="btn btn--sm btn--secondary" data-action="known" data-word-id="${w.id}">Know it</button>
-          <button class="btn btn--sm btn--ghost" data-action="review" data-word-id="${w.id}">Review again</button>
-        </div>` : ""}
     </div>
   `;
 }
 
+function flipWordCard(container, wordId, forceFlip) {
+  const card = container.querySelector(`.word-card[data-word-id="${wordId}"]`);
+  if (!card) return;
+  const shouldFlip = typeof forceFlip === "boolean" ? forceFlip : !card.classList.contains("is-flipped");
+  card.classList.toggle("is-flipped", shouldFlip);
+}
+
 function wireWordCardActions(container) {
-  container.querySelectorAll('[data-action="known"]').forEach(btn => {
-    btn.addEventListener("click", () => { VocabService.markKnown(btn.dataset.wordId); refreshAll(); });
+  // Tap the card face to flip it (front <-> back).
+  container.querySelectorAll("[data-flip-trigger]").forEach(face => {
+    face.addEventListener("click", (e) => {
+      if (e.target.closest("[data-action]")) return; // let buttons handle their own click
+      flipWordCard(container, face.dataset.flipTrigger);
+    });
+  });
+  // "Learn it" flips the card open to reveal the Vietnamese meaning.
+  container.querySelectorAll('[data-action="learn"]').forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      flipWordCard(container, btn.dataset.wordId, true);
+    });
+  });
+  // "Đã thuộc ✓" on the back marks the word as known.
+  container.querySelectorAll('[data-action="got-it"]').forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      VocabService.markKnown(btn.dataset.wordId);
+      if (typeof GamificationService !== "undefined") GamificationService.recordVocabKnown();
+      refreshAll();
+    });
   });
   container.querySelectorAll('[data-action="review"]').forEach(btn => {
-    btn.addEventListener("click", () => { VocabService.markReview(btn.dataset.wordId); refreshAll(); });
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      VocabService.markReview(btn.dataset.wordId);
+      refreshAll();
+    });
   });
 }
 
@@ -63,97 +112,24 @@ function refreshAll() {
 
 /* ---------------- Daily Words ---------------- */
 function renderDailyPane() {
-  const words = VocabService.getDailyWords(10);
+  const words = dailyOverride ? dailyOverride.words : VocabService.getDailyWords(10);
   const mount = document.getElementById("daily-grid");
-  mount.innerHTML = words.map(w => wordCard(w)).join("");
+  const toolbar = document.getElementById("daily-toolbar");
+  if (dailyOverride) {
+    toolbar.style.display = "flex";
+    document.getElementById("daily-set-label").textContent = `Showing: ${dailyOverride.label} (${words.length} words)`;
+  } else {
+    toolbar.style.display = "none";
+  }
+  mount.innerHTML = words.length
+    ? words.map(w => wordCard(w)).join("")
+    : `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state__title">No words here</div></div>`;
   wireWordCardActions(mount);
 }
 
-/* ---------------- Flashcards ---------------- */
-function startFlashcards(deck, label) {
-  if (deck.length === 0) {
-    flashcardState = null;
-  } else {
-    flashcardState = { deck: VocabService.shuffle(deck), index: 0, flipped: false, label };
-  }
-  document.querySelector('.vocab-tab[data-tab="flashcards"]').click();
-}
-
-function renderFlashcardPane() {
-  const mount = document.getElementById("pane-flashcards");
-  if (!flashcardState) {
-    mount.innerHTML = `
-      <div class="card empty-state">
-        <div class="empty-state__title">Choose a deck to study</div>
-        <div class="empty-state__sub">Pick a source, then flip through the cards.</div>
-        <div style="display:flex; gap:10px; justify-content:center; margin-top:18px; flex-wrap:wrap;">
-          <button class="btn btn--primary" id="deck-all">All Words</button>
-          <button class="btn btn--secondary" id="deck-daily">Today's Words</button>
-          <button class="btn btn--secondary" id="deck-missed">Words I Missed</button>
-        </div>
-      </div>
-    `;
-    document.getElementById("deck-all").addEventListener("click", () => startFlashcards(VocabService.getAllWords(), "All Words"));
-    document.getElementById("deck-daily").addEventListener("click", () => startFlashcards(VocabService.getDailyWords(10), "Today's Words"));
-    document.getElementById("deck-missed").addEventListener("click", () => startFlashcards(VocabService.getMissedWords(), "Words I Missed"));
-    return;
-  }
-
-  if (flashcardState.index >= flashcardState.deck.length) {
-    mount.innerHTML = `
-      <div class="card empty-state">
-        <div class="empty-state__title">Deck complete 🎉</div>
-        <div class="empty-state__sub">You reviewed ${flashcardState.deck.length} words from "${flashcardState.label}".</div>
-        <button class="btn btn--primary" id="deck-restart" style="margin-top:16px;">Study Another Deck</button>
-      </div>
-    `;
-    document.getElementById("deck-restart").addEventListener("click", () => { flashcardState = null; renderFlashcardPane(); });
-    return;
-  }
-
-  const w = flashcardState.deck[flashcardState.index];
-  mount.innerHTML = `
-    <div class="flashcard-wrap">
-      <div class="flashcard-progress">${flashcardState.label} · Card ${flashcardState.index + 1} / ${flashcardState.deck.length}</div>
-      <div class="flashcard-stage">
-        <div class="flashcard ${flashcardState.flipped ? "is-flipped" : ""}" id="flashcard-el">
-          <div class="flashcard__face flashcard__face--front">
-            <div class="flashcard__word">${w.word}</div>
-            <div class="flashcard__tap-hint">Tap to reveal definition</div>
-          </div>
-          <div class="flashcard__face flashcard__face--back">
-            <div class="flashcard__definition">${w.definition}</div>
-            <div class="flashcard__example">"${w.example}"</div>
-          </div>
-        </div>
-      </div>
-      <div class="flashcard-actions">
-        <button class="btn btn--secondary" id="fc-review">Review again</button>
-        <button class="btn btn--primary" id="fc-know">I know it</button>
-      </div>
-    </div>
-  `;
-
-  document.getElementById("flashcard-el").addEventListener("click", () => {
-    flashcardState.flipped = !flashcardState.flipped;
-    renderFlashcardPane();
-  });
-  document.getElementById("fc-know").addEventListener("click", (e) => {
-    e.stopPropagation();
-    VocabService.markKnown(w.id);
-    flashcardState.index++;
-    flashcardState.flipped = false;
-    renderStats();
-    renderFlashcardPane();
-  });
-  document.getElementById("fc-review").addEventListener("click", (e) => {
-    e.stopPropagation();
-    VocabService.markReview(w.id);
-    flashcardState.index++;
-    flashcardState.flipped = false;
-    renderStats();
-    renderFlashcardPane();
-  });
+function showDailyOverride(words, label) {
+  dailyOverride = { words, label };
+  document.querySelector('.vocab-tab[data-tab="daily"]').click();
 }
 
 /* ---------------- Quiz ---------------- */
@@ -244,6 +220,7 @@ function selectQuizOption(q, idx) {
     quizState.answeredThisQuestion = false;
     if (quizState.index >= quizState.questions.length) {
       VocabService.recordQuizResult(quizState.score, quizState.questions.length);
+      if (typeof GamificationService !== "undefined") GamificationService.recordVocabQuizCompleted();
       renderStats();
     }
     renderQuizPane();
@@ -256,6 +233,7 @@ function renderBrowsePane() {
   const all = VocabService.getAllWords();
   const filtered = all.filter(w => {
     if (browseFilters.difficulty !== "all" && w.difficulty !== browseFilters.difficulty) return false;
+    if (browseFilters.group !== "all" && w.group !== browseFilters.group) return false;
     if (browseFilters.search && !w.word.toLowerCase().includes(browseFilters.search.toLowerCase())) return false;
     return true;
   });
@@ -263,6 +241,22 @@ function renderBrowsePane() {
     ? filtered.map(w => wordCard(w)).join("")
     : `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state__title">No words match</div></div>`;
   wireWordCardActions(mount);
+}
+
+function renderGroupChips() {
+  const mount = document.getElementById("browse-group-chips");
+  const groups = VocabService.getGroups();
+  mount.innerHTML = [`<button class="chip is-selected" data-group="all">Tất cả nhóm</button>`]
+    .concat(groups.map(g => `<button class="chip" data-group="${g}">${g}</button>`))
+    .join("");
+  mount.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      browseFilters.group = chip.dataset.group;
+      mount.querySelectorAll(".chip").forEach(c => c.classList.remove("is-selected"));
+      chip.classList.add("is-selected");
+      renderBrowsePane();
+    });
+  });
 }
 
 function initBrowseControls() {
@@ -278,21 +272,19 @@ function initBrowseControls() {
       renderBrowsePane();
     });
   });
+  renderGroupChips();
 }
 
 /* ---------------- Words I Missed ---------------- */
 function renderMissedPane() {
   const missed = VocabService.getMissedWords();
   const mount = document.getElementById("missed-grid");
-  const cta = document.getElementById("missed-cta");
   if (missed.length === 0) {
     mount.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state__title">No missed words</div><div class="empty-state__sub">Words you mark "Review again" will show up here.</div></div>`;
-    cta.style.display = "none";
     return;
   }
   mount.innerHTML = missed.map(w => wordCard(w)).join("");
   wireWordCardActions(mount);
-  cta.style.display = "inline-flex";
 }
 
 /* ---------------- Init ---------------- */
@@ -305,11 +297,12 @@ function initVocabularyPage() {
   });
 
   document.getElementById("generate-level-btn").addEventListener("click", () => {
-    startFlashcards(VocabService.generateWordsForLevel(10), "Personalized Set");
+    showDailyOverride(VocabService.generateWordsForLevel(10), "Personalized Set");
   });
 
-  document.getElementById("missed-cta").addEventListener("click", () => {
-    startFlashcards(VocabService.getMissedWords(), "Words I Missed");
+  document.getElementById("daily-reset-btn").addEventListener("click", () => {
+    dailyOverride = null;
+    renderDailyPane();
   });
 
   initBrowseControls();

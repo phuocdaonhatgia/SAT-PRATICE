@@ -1,0 +1,7 @@
+{
+  "totalQuestions": 1935,
+  "originalQuestions": 53,
+  "importedOCRQuestions": 1882,
+  "dataSource": "js/data/questionsData.js",
+  "grouped": true
+}

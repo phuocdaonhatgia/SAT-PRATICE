@@ -68,7 +68,6 @@ function renderTable() {
       <td>${e.subject === "math" ? "Math" : "Reading & Writing"}</td>
       <td>${e.domain}</td>
       <td>${e.errorType || `<span class="cell-muted">Not logged</span>`}</td>
-      <td>${e.reflectionAnswer ? e.reflectionAnswer.slice(0, 40) + (e.reflectionAnswer.length > 40 ? "…" : "") : `<span class="cell-muted">—</span>`}</td>
       <td>${e.correctStrategy ? e.correctStrategy.slice(0, 44) + "…" : `<span class="cell-muted">—</span>`}</td>
       <td>${statusTag(e.status)}</td>
     </tr>
@@ -80,7 +79,7 @@ function renderTable() {
 
   if (filtered.length === 0) {
     document.getElementById("errlog-rows").innerHTML = `
-      <tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-400);">No entries match this filter.</td></tr>
+      <tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-400);">No entries match this filter.</td></tr>
     `;
   }
 }
@@ -94,6 +93,33 @@ function openDetail(id) {
 function closeModal() {
   document.getElementById("modal-backdrop").classList.remove("is-open");
   currentEntryId = null;
+}
+
+function questionRecap(entry, question) {
+  if (!question) {
+    return `<div class="errlog-section__body" style="color:var(--text-400); font-style:italic;">Original question not found.</div>`;
+  }
+  const choicesHtml = question.choices.map(c => {
+    let cls = "errlog-choice";
+    if (c.id === question.correctAnswer) cls += " is-correct";
+    else if (c.id === entry.selectedAnswer) cls += " is-incorrect";
+    return `
+      <div class="${cls}">
+        <span class="errlog-choice__letter">${c.id}</span>
+        <span class="errlog-choice__text">${c.text}</span>
+        ${c.id === question.correctAnswer ? `<span class="errlog-choice__tag">Correct</span>` : ""}
+        ${c.id === entry.selectedAnswer && c.id !== question.correctAnswer ? `<span class="errlog-choice__tag errlog-choice__tag--wrong">Your answer</span>` : ""}
+      </div>`;
+  }).join("");
+
+  return `
+    <div class="errlog-section">
+      <div class="errlog-section__title">The Question</div>
+      ${question.passage ? `<div class="errlog-recap-passage">${question.passage}</div>` : ""}
+      <div class="errlog-recap-prompt">${question.question}</div>
+      <div class="errlog-choices">${choicesHtml}</div>
+    </div>
+  `;
 }
 
 function renderModal() {
@@ -112,22 +138,15 @@ function renderModal() {
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <div class="errlog-summary-row">
-      <div class="errlog-summary-item">
-        <div class="errlog-summary-item__label">Your Answer</div>
-        <div class="errlog-summary-item__value incorrect">${entry.selectedAnswer}</div>
-      </div>
-      <div class="errlog-summary-item">
-        <div class="errlog-summary-item__label">Correct Answer</div>
-        <div class="errlog-summary-item__value correct">${entry.correctAnswer}</div>
-      </div>
-    </div>
   `;
+
+  const questionBlock = questionRecap(entry, question);
 
   let body;
   if (!entry.errorType) {
     // Step 1: "Why did you miss this?"
     body = `
+      ${questionBlock}
       <div class="errlog-section">
         <div class="errlog-section__title">Why did you miss this?</div>
         <div class="errlog-radio-group">
@@ -143,6 +162,8 @@ function renderModal() {
     `;
   } else {
     body = `
+      ${questionBlock}
+
       <div class="errlog-section">
         <div class="errlog-section__title">What happened?</div>
         <div class="errlog-section__body">${ErrorAnalyzer.whatHappened(entry, question)}</div>
@@ -157,20 +178,13 @@ function renderModal() {
       </div>
 
       <div class="errlog-section">
-        <div class="errlog-section__title">Socratic Reflection</div>
-        <div class="errlog-section__body" style="margin-bottom:8px; color:var(--text-600);">
-          ${ErrorAnalyzer.reflectionQuestion(entry.skill)}
-        </div>
-        <textarea class="text-input" id="reflection-input" placeholder="Type your answer...">${entry.reflectionAnswer || ""}</textarea>
-      </div>
-
-      <div class="errlog-section">
         <div class="errlog-section__title">Fix — Correct Strategy</div>
         <div class="errlog-strategy-box">${entry.correctStrategy}</div>
       </div>
 
       <div class="errlog-modal__actions">
         <button class="btn btn--primary" id="retry-similar-btn">Try a Similar Question</button>
+        <a class="btn btn--secondary" href="ai-tutor.html?questionId=${entry.questionId}">Ask AI Tutor</a>
         <button class="btn btn--secondary" id="mark-fixed-btn" ${entry.status === "fixed" ? "disabled" : ""}>
           ${entry.status === "fixed" ? "Marked as Fixed" : "Mark as Fixed"}
         </button>
@@ -194,6 +208,7 @@ function wireModalEvents(entry) {
       if (!selected) return;
       const strategy = ErrorAnalyzer.suggestStrategy(selected.value);
       ErrorLogService.setErrorType(entry.id, selected.value, strategy);
+      if (typeof GamificationService !== "undefined") GamificationService.recordErrorReflectionSaved();
       renderModal();
       renderTable();
       renderStats();
@@ -207,13 +222,6 @@ function wireModalEvents(entry) {
       ErrorLogService.updateEntry(entry.id, { errorType: null, correctStrategy: null });
       renderModal();
       renderTable();
-    });
-  }
-
-  const reflectionInput = document.getElementById("reflection-input");
-  if (reflectionInput) {
-    reflectionInput.addEventListener("blur", () => {
-      ErrorLogService.updateEntry(entry.id, { reflectionAnswer: reflectionInput.value });
     });
   }
 

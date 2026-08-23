@@ -16,31 +16,21 @@
 
     <div class="topbar">
       <div>
-        <div class="topbar__greeting">Good evening, <span id="greeting-name">Gia Phước</span> 👋</div>
+        <div class="topbar__greeting">Welcome, <span id="greeting-name">Students</span> 👋</div>
         <div class="topbar__sub">Let's improve your SAT score today.</div>
       </div>
       <div class="topbar__meta">
         <span class="pill pill--streak">🔥 <span id="streak-count"></span></span>
-        <span class="pill pill--xp">⚡ <span id="xp-count"></span></span>
       </div>
     </div>
 
-    <section class="grid dash-grid">
-      <!-- Score card -->
-      <div class="card score-card">
-        <div class="card__head">
-          <span class="card__eyebrow" style="color:var(--on-navy-dim)">SAT Score</span>
-          <a class="card__link" href="progress.html" style="color:var(--indigo-400)">View progress</a>
-        </div>
-        <div class="score-card__body" id="score-card-body"></div>
-        <div class="score-target" id="score-target"></div>
+    <!-- Today's goal card -->
+    <section class="card goal-card--wide" style="margin-bottom:18px;">
+      <div class="card__head">
+        <span class="card__title">Today's Goal</span>
+        <span class="goal-card__pct-badge" id="goal-pct-badge"></span>
       </div>
-
-      <!-- Today's goal card -->
-      <div class="card">
-        <div class="card__head">
-          <span class="card__title">Today's Goal</span>
-        </div>
+      <div class="goal-card__body">
         <div class="goal-progress">
           <div class="goal-ring" id="goal-ring"></div>
           <div class="goal-progress__text" id="goal-progress-text"></div>
@@ -91,17 +81,43 @@
         </div>
         <div>
           <div class="cta__title">Review Mistakes</div>
-          <div class="cta__sub">4 items need review</div>
+          <div class="cta__sub">Check your Error Log</div>
         </div>
         <svg class="cta__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
       </a>
+      <a class="cta cta--ai" href="ai-tutor.html">
+        <div class="cta__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 1 4 4v1a4 4 0 1 1-8 0V7a4 4 0 0 1 4-4Z"/><path d="M5 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/><path d="M9 10h.01M15 10h.01"/></svg>
+        </div>
+        <div>
+          <div class="cta__title">Ask AI Tutor</div>
+          <div class="cta__sub">Get Socratic guidance</div>
+        </div>
+        <svg class="cta__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+      </a>
+    </section>
+
+    <!-- Badges + Recommendation (spec mục 18 + 21) -->
+    <section class="grid dash-grid--secondary">
+      <div class="card">
+        <div class="card__head">
+          <span class="card__title">Badges</span>
+        </div>
+        <div class="badges-row" id="badges-row"></div>
+      </div>
+
+      <div class="card" id="recommendation-mount"></div>
     </section>
 
   </main>
 </div>
 
 <script src="js/app.js"></script>
+<script src="js/storage.js"></script>
 <script src="js/data/dashboardData.js"></script>
+<script src="js/errorLog.js"></script>
+<script src="js/gamificationService.js"></script>
+<script src="js/recommendationService.js"></script>
 <script src="js/dashboard.js"></script>
 </body>
 </html>

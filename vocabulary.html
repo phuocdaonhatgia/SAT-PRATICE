@@ -28,7 +28,6 @@
 
     <div class="vocab-tabs">
       <button class="vocab-tab is-active" data-tab="daily">Daily Words</button>
-      <button class="vocab-tab" data-tab="flashcards">Flashcards</button>
       <button class="vocab-tab" data-tab="quiz">Quiz</button>
       <button class="vocab-tab" data-tab="browse">SAT Words</button>
       <button class="vocab-tab" data-tab="missed">Words I Missed</button>
@@ -36,11 +35,12 @@
 
     <!-- Daily Words -->
     <div class="vocab-pane is-active" id="pane-daily">
+      <div class="word-toolbar" id="daily-toolbar" style="display:none;">
+        <span style="font-size:13px; color:var(--text-600);" id="daily-set-label"></span>
+        <button class="btn btn--sm btn--ghost" id="daily-reset-btn">Back to Today's Words</button>
+      </div>
       <div class="word-grid" id="daily-grid"></div>
     </div>
-
-    <!-- Flashcards -->
-    <div class="vocab-pane" id="pane-flashcards"></div>
 
     <!-- Quiz -->
     <div class="vocab-pane" id="pane-quiz"></div>
@@ -56,6 +56,7 @@
           <button class="chip" data-diff="hard">Hard</button>
         </div>
       </div>
+      <div class="chip-row" id="browse-group-chips" style="margin-bottom:16px;"></div>
       <div class="word-grid" id="browse-grid"></div>
     </div>
 
@@ -63,7 +64,6 @@
     <div class="vocab-pane" id="pane-missed">
       <div class="word-toolbar">
         <span style="font-size:13px; color:var(--text-600);">Words you've marked "Review again"</span>
-        <button class="btn btn--secondary" id="missed-cta">Study These as Flashcards</button>
       </div>
       <div class="word-grid" id="missed-grid"></div>
     </div>
@@ -75,6 +75,7 @@
 <script src="js/storage.js"></script>
 <script src="js/data/vocabData.js"></script>
 <script src="js/vocabService.js"></script>
+<script src="js/gamificationService.js"></script>
 <script src="js/vocabulary.js"></script>
 </body>
 </html>

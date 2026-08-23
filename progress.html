@@ -19,44 +19,43 @@
     <div class="topbar">
       <div>
         <div class="topbar__greeting">Progress</div>
-        <div class="topbar__sub">Your score trend, accuracy, and skill breakdown over time.</div>
+        <div class="topbar__sub">Your accuracy and skill breakdown, based on the practice you've actually done.</div>
       </div>
     </div>
 
     <div class="progress-grid" style="margin-bottom:18px;">
       <div class="card">
-        <div class="card__head"><span class="card__title">Score Progress</span></div>
-        <div class="linechart-wrap">
-          <div id="score-linechart"></div>
-          <div class="linechart-labels" id="score-linechart-labels"></div>
-        </div>
-      </div>
-
-      <div class="card">
         <div class="card__head"><span class="card__title">Accuracy</span></div>
         <div class="accuracy-row" id="accuracy-row"></div>
       </div>
-    </div>
 
-    <div class="progress-grid">
       <div class="card">
         <div class="card__head"><span class="card__title">Skill Breakdown</span></div>
         <div class="skill-breakdown-list" id="skill-breakdown-list"></div>
       </div>
-
-      <div class="card">
-        <div class="card__head"><span class="card__title">Error Trends</span></div>
-        <div class="errortrend-chart" id="errortrend-chart"></div>
-      </div>
     </div>
+
+    <!-- Learning Sprint (Design Thinking, spec mục 19) -->
+    <section class="card" style="margin-top:18px;">
+      <div class="card__head">
+        <span class="card__title">Your SAT Learning Sprint</span>
+      </div>
+      <div class="sprint-tabs" id="sprint-tabs"></div>
+      <div id="sprint-pane-mount"></div>
+    </section>
 
   </main>
 </div>
 
 <script src="js/app.js"></script>
 <script src="js/storage.js"></script>
-<script src="js/data/progressData.js"></script>
+<script src="js/data/questionsData.js"></script>
+<script src="js/questionEngine.js"></script>
+<script src="js/sessionManager.js"></script>
 <script src="js/errorLog.js"></script>
+<script src="js/gamificationService.js"></script>
+<script src="js/compositionHelpers.js"></script>
 <script src="js/progress.js"></script>
+<script src="js/learningSprint.js"></script>
 </body>
 </html>
