@@ -383,6 +383,24 @@ function finishSession() {
   const correctCount = session.questionIds.filter(id => session.answers[id]?.correct).length;
   const answeredCount = session.questionIds.filter(id => session.answers[id]?.submitted).length;
   if (typeof GamificationService !== "undefined") GamificationService.recordSessionFinished();
+
+  // Ghi lại phiên này để trang Progress vẽ được Score Trend thật.
+  if (typeof ProgressService !== "undefined") {
+    const bySubject = {};
+    session.questionIds.forEach(id => {
+      const a = session.answers[id];
+      if (!a || !a.submitted) return;
+      const q = QuestionProvider.getQuestionById(id);
+      if (!bySubject[q.subject]) bySubject[q.subject] = { correct: 0, total: 0 };
+      bySubject[q.subject].total += 1;
+      if (a.correct) bySubject[q.subject].correct += 1;
+    });
+    ProgressService.recordSessionResult({
+      total, answered: answeredCount, correct: correctCount,
+      bySubject, meta: session.meta
+    });
+  }
+
   renderReflection({ total, answered: answeredCount, correct: correctCount });
 }
 

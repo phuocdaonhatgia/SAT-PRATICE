@@ -58,8 +58,8 @@ function renderSidebar(activeKey) {
       <div class="sidebar__user">
         <div class="sidebar__avatar">KN</div>
         <div>
-          <div class="sidebar__user-name">Khánh Ngọc</div>
-          <div class="sidebar__user-role">Grade 11 · Target 1600</div>
+          <div class="sidebar__user-name">…</div>
+          <div class="sidebar__user-role"></div>
         </div>
       </div>
     </div>

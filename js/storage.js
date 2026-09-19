@@ -1,19 +1,26 @@
 /**
- * storage.js — wrapper quanh localStorage (BẢN CẬP NHẬT).
+ * storage.js — wrapper quanh localStorage.
  *
- * Thay đổi so với bản cũ:
- *  1. Mỗi lần set/remove/push sẽ bắn event "satpractice:changed" -> UI nào
- *     đang mở có thể vẽ lại ngay lập tức (đây là phần "realtime" trong cùng tab).
- *  2. Thêm applyRemote() / dump() để cloudSync.js đồng bộ 2 chiều với Firestore.
- *  3. Thêm setNamespace() để dữ liệu của mỗi user tách riêng trên cùng 1 máy.
+ * SỬA LỖI QUAN TRỌNG (so với bản trước): hàm get() giờ tự phục hồi khi dữ
+ * liệu lưu trong localStorage là chuỗi "null" (tức JSON.parse ra null) mà
+ * caller lại mong đợi một object/array rỗng.
  *
- * API cũ (get/set/remove/push) giữ nguyên 100% -> mọi file cũ không cần sửa.
+ * Vì sao cần: get() cũ chỉ trả về fallback khi KEY HOÀN TOÀN KHÔNG TỒN TẠI
+ * (raw === null). Nhưng nếu key tồn tại và giá trị lưu là "null" (literal),
+ * JSON.parse("null") = null — get() cũ trả thẳng null đó, bỏ qua fallback.
+ * Nơi nào gọi `Storage.get(key, {})` hay `Storage.get(key, [])` rồi thao
+ * tác trực tiếp (all[id], arr.push(...)) sẽ crash với TypeError
+ * "Cannot read properties of null".
+ *
+ * Giá trị "null" này từng bị ghi vào bởi một lần đồng bộ/merge lỗi trước
+ * đây. Với fix này, lần đọc TIẾP THEO sẽ tự thay bằng fallback đúng
+ * ({}/[]) — không cần xoá tay localStorage, dữ liệu tự phục hồi.
  */
 
 const Storage = (() => {
   const BASE = "satpractice:";
-  let namespace = "";          // ví dụ "u_abc123:" sau khi đăng nhập
-  let muted = false;           // true khi đang ghi dữ liệu từ cloud xuống
+  let namespace = "";
+  let muted = false;
 
   function fullKey(key) {
     return BASE + namespace + key;
@@ -24,7 +31,6 @@ const Storage = (() => {
     document.dispatchEvent(new CustomEvent("satpractice:changed", { detail: { key } }));
   }
 
-  /** Đổi vùng lưu theo user. Gọi khi đăng nhập / đăng xuất. */
   function setNamespace(ns) {
     namespace = ns ? ns + ":" : "";
     document.dispatchEvent(new CustomEvent("satpractice:changed", { detail: { key: "*" } }));
@@ -34,7 +40,12 @@ const Storage = (() => {
     try {
       const raw = localStorage.getItem(fullKey(key));
       if (raw === null) return fallback;
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      // Dữ liệu lưu thành "null" nhưng caller mong một object/array rỗng
+      // (fallback khác null) -> coi như chưa có gì, trả fallback thay vì
+      // trả null thẳng ra để crash chỗ gọi.
+      if (parsed === null && fallback !== null) return fallback;
+      return parsed;
     } catch (e) {
       console.error("Storage.get failed for", key, e);
       return fallback;
@@ -65,7 +76,7 @@ const Storage = (() => {
 
   /** Append one item to an array stored at `key` (creates the array if missing). */
   function push(key, item) {
-    const arr = get(key, []);
+    const arr = get(key, []); // luôn là mảng thật nhờ fix ở get()
     arr.push(item);
     set(key, arr);
     return arr;
@@ -73,7 +84,6 @@ const Storage = (() => {
 
   /* ---------- dùng cho cloudSync ---------- */
 
-  /** Trả về toàn bộ dữ liệu của namespace hiện tại dạng { key: value }. */
   function dump(keys) {
     const out = {};
     keys.forEach(k => {
@@ -83,7 +93,6 @@ const Storage = (() => {
     return out;
   }
 
-  /** Ghi dữ liệu từ cloud xuống mà KHÔNG bắn event đẩy ngược lên cloud. */
   function applyRemote(obj) {
     muted = true;
     try {

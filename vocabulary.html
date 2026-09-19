@@ -6,6 +6,7 @@
 <title>Vocabulary — SAT Practice</title>
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/auth.css" />
 <link rel="stylesheet" href="css/practice.css" />
 <link rel="stylesheet" href="css/vocabulary.css" />
 </head>
@@ -71,8 +72,16 @@
   </main>
 </div>
 
+<!-- Firebase: phải đứng trước mọi thứ -->
+<script src="js/firebase-config.js"></script>
+<script type="module" src="js/firebase-init.js"></script>
+
 <script src="js/app.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/authService.js"></script>
+<script src="js/cloudSync.js"></script>
+<script src="js/authGuard.js"></script>
+
 <script src="js/data/vocabData.js"></script>
 <script src="js/vocabService.js"></script>
 <script src="js/gamificationService.js"></script>

@@ -1,11 +1,18 @@
 /**
- * progress.js — BẢN CẬP NHẬT (thay file cũ).
+ * progress.js — BẢN SỬA RACE CONDITION.
  *
- * Khác bản cũ:
- *  - Thêm Estimated Score + biểu đồ Score Trend + Error Trends, tất cả tính
- *    từ ProgressService (dữ liệu thật), không còn đụng tới PROGRESS_DATA.
- *  - Tự vẽ lại khi dữ liệu đổi: bắt event "satpractice:changed" (do Storage
- *    bắn ra, kể cả khi thay đổi đến từ Firestore ở máy khác) -> realtime.
+ * Bug cũ: trang vẽ ngay lúc DOMContentLoaded, trong khi Firebase Auth còn
+ * đang xác thực và Storage vẫn ở namespace rỗng ("") — nên nếu máy này từng
+ * có dữ liệu luyện tập từ TRƯỚC KHI có hệ thống đăng nhập (namespace chưa
+ * tồn tại), trang sẽ đọc nhầm đúng dữ liệu cũ đó trong một khoảnh khắc,
+ * trước khi cloudSync kịp chuyển sang namespace riêng của tài khoản.
+ *
+ * Sửa: không vẽ lần đầu cho tới khi có ít nhất 1 sự kiện
+ * "satpractice:changed" xảy ra — sự kiện này luôn được cloudSync bắn ra
+ * ngay sau khi namespace được xác lập (dù đăng nhập cloud hay chạy local),
+ * nên đảm bảo lần vẽ đầu tiên luôn dùng đúng dữ liệu của đúng tài khoản.
+ * Có timeout dự phòng 1.5s để trang không bị trắng nếu vì lý do gì đó
+ * event không bắn (ví dụ cloudSync.js lỡ không được nhúng vào trang).
  */
 
 let gaugeUidProgress = 0;
@@ -77,7 +84,7 @@ function renderAccuracyGauges(snap) {
 function renderSkillBreakdown(snap) {
   const mount = document.getElementById("skill-breakdown-list");
   if (!mount) return;
-  const skills = snap.skillBreakdown; // đã sort yếu nhất trước
+  const skills = snap.skillBreakdown;
 
   if (skills.length === 0) {
     mount.innerHTML = emptyState(
@@ -206,10 +213,21 @@ function renderProgressPage() {
 
 function initProgressPage() {
   renderSidebar("progress");
-  renderProgressPage();
 
-  // Realtime: mọi thay đổi dữ liệu (kể cả từ Firestore đẩy xuống) -> vẽ lại.
-  document.addEventListener("satpractice:changed", renderProgressPage);
+  let hasRenderedOnce = false;
+  function safeRender() {
+    hasRenderedOnce = true;
+    renderProgressPage();
+  }
+
+  // KHÔNG vẽ ngay ở đây. Chờ tín hiệu namespace đã sẵn sàng (event đầu tiên
+  // mà cloudSync bắn ra sau khi biết chính xác đây là tài khoản nào), rồi
+  // mới vẽ lần đầu — tránh đọc nhầm dữ liệu cũ trong lúc Firebase còn xác thực.
+  document.addEventListener("satpractice:changed", safeRender);
+
+  // Lưới an toàn: nếu vì lý do gì đó không có event nào bắn trong 1.5s
+  // (ví dụ thiếu cloudSync.js), vẫn vẽ để trang không trắng mãi.
+  setTimeout(() => { if (!hasRenderedOnce) safeRender(); }, 1500);
 }
 
 document.addEventListener("DOMContentLoaded", initProgressPage);
