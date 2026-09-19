@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Đăng nhập — SAT Practice</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/auth.css" />
+</head>
+<body class="auth-body">
+
+<div class="auth-wrap">
+  <div class="auth-brand">
+    <div class="auth-brand__mark">S</div>
+    <div class="auth-brand__text">SAT PRACTICE</div>
+  </div>
+
+  <div class="auth-card">
+    <h1 class="auth-title">Đăng nhập</h1>
+    <p class="auth-sub">Tiếp tục hành trình luyện SAT của bạn.</p>
+
+    <div class="auth-alert" id="auth-alert" hidden></div>
+
+    <form id="login-form" novalidate>
+      <label class="auth-field">
+        <span class="auth-label">Email</span>
+        <input class="auth-input" type="email" name="email" autocomplete="email" required placeholder="ban@example.com" />
+      </label>
+
+      <label class="auth-field">
+        <span class="auth-label">Mật khẩu</span>
+        <input class="auth-input" type="password" name="password" autocomplete="current-password" required placeholder="••••••••" />
+      </label>
+
+      <button class="btn btn--primary btn--block" type="submit" id="submit-btn">Đăng nhập</button>
+    </form>
+
+    <button class="auth-link-btn" type="button" id="forgot-btn">Quên mật khẩu?</button>
+
+    <div class="auth-foot">
+      Chưa có tài khoản? <a href="signup.html">Đăng ký</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/firebase-config.js"></script>
+<script type="module" src="js/firebase-init.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/authService.js"></script>
+<script src="js/authPage.js"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@
  */
 const DASHBOARD_DATA = {
   student: {
-    name: "Khánh Ngọc"
+    name: "user."
   },
   todayGoal: {
     questionsTarget: 20,

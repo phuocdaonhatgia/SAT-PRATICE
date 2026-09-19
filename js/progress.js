@@ -1,8 +1,11 @@
 /**
- * progress.js — drives progress.html (spec mục 17).
- * Accuracy and Skill Breakdown are both computed live from
- * GamificationService's answer stats — real questions the student has
- * actually submitted through Practice / Question sessions, not mock data.
+ * progress.js — BẢN CẬP NHẬT (thay file cũ).
+ *
+ * Khác bản cũ:
+ *  - Thêm Estimated Score + biểu đồ Score Trend + Error Trends, tất cả tính
+ *    từ ProgressService (dữ liệu thật), không còn đụng tới PROGRESS_DATA.
+ *  - Tự vẽ lại khi dữ liệu đổi: bắt event "satpractice:changed" (do Storage
+ *    bắn ra, kể cả khi thay đổi đến từ Firestore ở máy khác) -> realtime.
  */
 
 let gaugeUidProgress = 0;
@@ -13,7 +16,6 @@ function progressGauge({ value, max, size, stroke, color }) {
   const pct = Math.min(value / max, 1);
   const offset = c * (1 - pct);
   const cx = size / 2, cy = size / 2;
-  const gradId = `pgauge-${gaugeUidProgress++}`;
 
   return `
   <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
@@ -25,21 +27,32 @@ function progressGauge({ value, max, size, stroke, color }) {
   </svg>`;
 }
 
-function renderAccuracyGauges() {
-  const overall = GamificationService.getOverallAccuracy();
-  const rw = GamificationService.getSubjectAccuracy("reading-writing");
-  const math = GamificationService.getSubjectAccuracy("math");
+function emptyState(title, sub, pad = "16px 0") {
+  return `
+    <div class="empty-state" style="padding:${pad};">
+      <div class="empty-state__title">${title}</div>
+      <div class="empty-state__sub">${sub}</div>
+    </div>`;
+}
+
+/* ---------------- Accuracy ---------------- */
+
+function renderAccuracyGauges(snap) {
+  const mount = document.getElementById("accuracy-row");
+  if (!mount) return;
+  const { overall, readingWriting: rw, math } = snap.accuracy;
 
   if (overall === null) {
-    document.getElementById("accuracy-row").innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1; padding:20px 10px;">
-        <div class="empty-state__title">No data yet</div>
-        <div class="empty-state__sub">Answer some practice questions and your accuracy will show up here.</div>
-      </div>`;
+    mount.innerHTML = emptyState(
+      "Chưa có dữ liệu",
+      "Làm vài câu luyện tập đi, độ chính xác sẽ hiện ở đây.",
+      "20px 10px"
+    );
+    mount.firstElementChild.style.gridColumn = "1/-1";
     return;
   }
 
-  document.getElementById("accuracy-row").innerHTML = `
+  mount.innerHTML = `
     <div>
       ${progressGauge({ value: overall, max: 100, size: 100, stroke: 9, color: "var(--indigo-500)" })}
       <div class="accuracy-item__label">Overall</div>
@@ -59,16 +72,18 @@ function renderAccuracyGauges() {
   `;
 }
 
-function renderSkillBreakdown() {
+/* ---------------- Skill breakdown ---------------- */
+
+function renderSkillBreakdown(snap) {
   const mount = document.getElementById("skill-breakdown-list");
-  const skills = GamificationService.getSkillAccuracyList(1); // already sorted weakest-first
+  if (!mount) return;
+  const skills = snap.skillBreakdown; // đã sort yếu nhất trước
 
   if (skills.length === 0) {
-    mount.innerHTML = `
-      <div class="empty-state" style="padding:16px 0;">
-        <div class="empty-state__title">No practice data yet</div>
-        <div class="empty-state__sub">Skills like Main Idea, Text Structure, or Linear Equations will show up here once you start answering questions.</div>
-      </div>`;
+    mount.innerHTML = emptyState(
+      "Chưa có dữ liệu luyện tập",
+      "Các kỹ năng như Main Idea, Text Structure hay Linear Equations sẽ hiện ở đây khi bạn bắt đầu làm bài."
+    );
     return;
   }
 
@@ -85,10 +100,116 @@ function renderSkillBreakdown() {
   }).join("");
 }
 
+/* ---------------- Estimated score + trend ---------------- */
+
+function lineChart(points, { w = 520, h = 180, pad = 28, color = "var(--indigo-500)", min, max }) {
+  if (points.length === 0) return "";
+  const ys = points.map(p => p.score);
+  const lo = min !== undefined ? min : Math.min(...ys) - 40;
+  const hi = max !== undefined ? max : Math.max(...ys) + 40;
+  const span = Math.max(hi - lo, 1);
+
+  const x = i => pad + (points.length === 1 ? (w - 2 * pad) / 2 : (i * (w - 2 * pad)) / (points.length - 1));
+  const y = v => h - pad - ((v - lo) / span) * (h - 2 * pad);
+
+  const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(p.score).toFixed(1)}`).join(" ");
+  const area = `${path} L${x(points.length - 1).toFixed(1)},${h - pad} L${x(0).toFixed(1)},${h - pad} Z`;
+
+  const dots = points.map((p, i) => `
+    <circle cx="${x(i).toFixed(1)}" cy="${y(p.score).toFixed(1)}" r="4" fill="var(--surface)" stroke="${color}" stroke-width="2.5">
+      <title>${p.label}: ${p.score} (${p.accuracy}% đúng)</title>
+    </circle>`).join("");
+
+  const labels = points.map((p, i) => `
+    <text x="${x(i).toFixed(1)}" y="${h - 8}" text-anchor="middle"
+      font-family="var(--font-mono)" font-size="10" fill="var(--text-400)">${p.label}</text>`).join("");
+
+  return `
+  <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="overflow:visible;">
+    <line x1="${pad}" y1="${h - pad}" x2="${w - pad}" y2="${h - pad}" stroke="var(--border-soft)" stroke-width="1"/>
+    <path d="${area}" fill="${color}" opacity="0.08"/>
+    <path d="${path}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    ${dots}${labels}
+  </svg>`;
+}
+
+function renderScoreTrend(snap) {
+  const mount = document.getElementById("score-trend-mount");
+  if (!mount) return;
+
+  const est = snap.estimatedScore;
+  const trend = snap.scoreTrend;
+
+  if (!est) {
+    mount.innerHTML = emptyState(
+      "Chưa có điểm ước tính",
+      "Hoàn thành một phiên luyện tập để xem điểm SAT ước tính và xu hướng theo thời gian."
+    );
+    return;
+  }
+
+  const delta = trend.length >= 2 ? trend[trend.length - 1].score - trend[0].score : 0;
+  const deltaHtml = trend.length >= 2
+    ? `<span class="score-delta ${delta >= 0 ? "is-up" : "is-down"} mono">${delta >= 0 ? "▲" : "▼"} ${Math.abs(delta)}</span>`
+    : "";
+
+  mount.innerHTML = `
+    <div class="score-head">
+      <div>
+        <div class="score-big mono">${est.total}</div>
+        <div class="score-caption">Điểm ước tính · RW ${est.readingWriting} · Math ${est.math}</div>
+      </div>
+      ${deltaHtml}
+    </div>
+    ${trend.length >= 2
+      ? lineChart(trend, {})
+      : `<div class="score-caption" style="margin-top:12px;">Làm thêm một phiên nữa để vẽ được đường xu hướng.</div>`}
+    <div class="score-note">Ước tính từ ${snap.totalAnswered} câu đã làm. Đây là con số tham khảo để theo dõi tiến bộ, không phải điểm scaled chính thức.</div>
+  `;
+}
+
+/* ---------------- Error trends ---------------- */
+
+function renderErrorTrends(snap) {
+  const mount = document.getElementById("error-trend-mount");
+  if (!mount) return;
+  const data = snap.errorTrends;
+
+  if (data.length === 0) {
+    mount.innerHTML = emptyState("Chưa có lỗi nào được ghi", "Làm sai câu nào là nó tự vào Error Log, rồi thống kê theo tuần sẽ hiện ở đây.");
+    return;
+  }
+
+  const maxV = Math.max(...data.map(d => d.mistakes), 1);
+  mount.innerHTML = `
+    <div class="err-bars">
+      ${data.map(d => `
+        <div class="err-bar">
+          <div class="err-bar__col">
+            <div class="err-bar__fill" style="height:${Math.round((d.mistakes / maxV) * 100)}%"></div>
+          </div>
+          <div class="err-bar__val mono">${d.mistakes}</div>
+          <div class="err-bar__label">${d.week}</div>
+        </div>`).join("")}
+    </div>`;
+}
+
+/* ---------------- Render + realtime ---------------- */
+
+function renderProgressPage() {
+  const snap = ProgressService.getSnapshot();
+  renderAccuracyGauges(snap);
+  renderSkillBreakdown(snap);
+  renderScoreTrend(snap);
+  renderErrorTrends(snap);
+}
+
 function initProgressPage() {
   renderSidebar("progress");
-  renderAccuracyGauges();
-  renderSkillBreakdown();
+  renderProgressPage();
+
+  // Realtime: mọi thay đổi dữ liệu (kể cả từ Firestore đẩy xuống) -> vẽ lại.
+  document.addEventListener("satpractice:changed", renderProgressPage);
 }
 
 document.addEventListener("DOMContentLoaded", initProgressPage);

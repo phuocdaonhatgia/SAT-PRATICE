@@ -1,0 +1,55 @@
+/* progress-extra.css — style cho Estimated Score, Score Trend và Error Trends */
+
+.score-head {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 6px;
+}
+.score-big {
+  font-size: 40px; font-weight: 700; line-height: 1;
+  color: var(--text-900); letter-spacing: -0.02em;
+}
+.score-caption {
+  margin-top: 6px; font-size: 13px; color: var(--text-600);
+}
+.score-note {
+  margin-top: 12px; font-size: 11.5px; color: var(--text-400); line-height: 1.5;
+}
+.score-delta {
+  font-size: 13px; font-weight: 700;
+  padding: 4px 10px; border-radius: 999px;
+}
+.score-delta.is-up { color: var(--success); background: var(--success-bg); }
+.score-delta.is-down { color: var(--danger); background: var(--danger-bg); }
+
+/* --- error trends bar chart --- */
+
+.err-bars {
+  display: flex; align-items: flex-end;
+  gap: 10px; height: 160px; padding-top: 8px;
+}
+.err-bar {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; height: 100%;
+}
+.err-bar__col {
+  flex: 1; width: 100%; max-width: 44px;
+  display: flex; align-items: flex-end;
+  background: var(--surface-soft);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.err-bar__fill {
+  width: 100%;
+  background: linear-gradient(180deg, var(--indigo-400), var(--indigo-600));
+  border-radius: var(--radius-sm);
+  min-height: 4px;
+  transition: height .35s ease;
+}
+.err-bar__val {
+  margin-top: 6px; font-size: 12px;
+  font-weight: 700; color: var(--text-900);
+}
+.err-bar__label {
+  margin-top: 2px; font-size: 10.5px; color: var(--text-400);
+}

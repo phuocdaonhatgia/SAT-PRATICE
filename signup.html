@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Đăng ký — SAT Practice</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/auth.css" />
+</head>
+<body class="auth-body">
+
+<div class="auth-wrap">
+  <div class="auth-brand">
+    <div class="auth-brand__mark">S</div>
+    <div class="auth-brand__text">SAT PRACTICE</div>
+  </div>
+
+  <div class="auth-card">
+    <h1 class="auth-title">Tạo tài khoản</h1>
+    <p class="auth-sub">Tiến độ của bạn sẽ được lưu và đồng bộ trên mọi thiết bị.</p>
+
+    <div class="auth-alert" id="auth-alert" hidden></div>
+
+    <form id="signup-form" novalidate>
+      <label class="auth-field">
+        <span class="auth-label">Họ và tên</span>
+        <input class="auth-input" type="text" name="displayName" autocomplete="name" required placeholder="Nguyễn Khánh Ngọc" />
+      </label>
+
+      <label class="auth-field">
+        <span class="auth-label">Email</span>
+        <input class="auth-input" type="email" name="email" autocomplete="email" required placeholder="ban@example.com" />
+      </label>
+
+      <label class="auth-field">
+        <span class="auth-label">Mật khẩu</span>
+        <input class="auth-input" type="password" name="password" autocomplete="new-password" required minlength="6" placeholder="Ít nhất 6 ký tự" />
+      </label>
+
+      <div class="auth-row">
+        <label class="auth-field">
+          <span class="auth-label">Lớp</span>
+          <select class="auth-input" name="grade">
+            <option value="">—</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11" selected>11</option>
+            <option value="12">12</option>
+          </select>
+        </label>
+
+        <label class="auth-field">
+          <span class="auth-label">Điểm mục tiêu</span>
+          <select class="auth-input" name="targetScore">
+            <option value="">—</option>
+            <option value="1200">1200</option>
+            <option value="1300">1300</option>
+            <option value="1400">1400</option>
+            <option value="1500" selected>1500</option>
+            <option value="1600">1600</option>
+          </select>
+        </label>
+      </div>
+
+      <button class="btn btn--primary btn--block" type="submit" id="submit-btn">Đăng ký</button>
+    </form>
+
+    <div class="auth-foot">
+      Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/firebase-config.js"></script>
+<script type="module" src="js/firebase-init.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/authService.js"></script>
+<script src="js/authPage.js"></script>
+</body>
+</html>
