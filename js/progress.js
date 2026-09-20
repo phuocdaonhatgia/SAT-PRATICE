@@ -1,21 +1,15 @@
 /**
- * progress.js — BẢN SỬA RACE CONDITION.
+ * progress.js
  *
- * Bug cũ: trang vẽ ngay lúc DOMContentLoaded, trong khi Firebase Auth còn
- * đang xác thực và Storage vẫn ở namespace rỗng ("") — nên nếu máy này từng
- * có dữ liệu luyện tập từ TRƯỚC KHI có hệ thống đăng nhập (namespace chưa
- * tồn tại), trang sẽ đọc nhầm đúng dữ liệu cũ đó trong một khoảnh khắc,
- * trước khi cloudSync kịp chuyển sang namespace riêng của tài khoản.
- *
- * Sửa: không vẽ lần đầu cho tới khi có ít nhất 1 sự kiện
- * "satpractice:changed" xảy ra — sự kiện này luôn được cloudSync bắn ra
- * ngay sau khi namespace được xác lập (dù đăng nhập cloud hay chạy local),
- * nên đảm bảo lần vẽ đầu tiên luôn dùng đúng dữ liệu của đúng tài khoản.
- * Có timeout dự phòng 1.5s để trang không bị trắng nếu vì lý do gì đó
- * event không bắn (ví dụ cloudSync.js lỡ không được nhúng vào trang).
+ * SỬA (tính năng Pro/Plus) trên nền bản đã sửa race condition trước đó:
+ *  - Accuracy (tổng quan) vẫn Free.
+ *  - Skill Breakdown, biểu đồ Score Trend (lịch sử), Error Trends -> Pro
+ *    ("Theo dõi tiến bộ nâng cao" / "Phân tích lỗi sai chi tiết").
+ *  - Advanced Analytics (xu hướng theo môn) + nút "Xuất báo cáo chi tiết"
+ *    -> Plus.
+ * Điểm ước tính hiện tại (1 con số) vẫn hiện cho Free — chỉ phần LỊCH SỬ
+ * (biểu đồ) bị khoá, để free vẫn thấy "theo dõi điểm" như đã hứa.
  */
-
-let gaugeUidProgress = 0;
 
 function progressGauge({ value, max, size, stroke, color }) {
   const r = (size - stroke) / 2;
@@ -42,7 +36,25 @@ function emptyState(title, sub, pad = "16px 0") {
     </div>`;
 }
 
-/* ---------------- Accuracy ---------------- */
+function lockedTeaser(title, sub, featureKey) {
+  return `
+    <div class="locked-panel" style="padding:26px 10px;">
+      <div class="locked-panel__icon">🔒</div>
+      <div class="locked-panel__title">${title}</div>
+      <div class="locked-panel__sub">${sub}</div>
+      <button class="locked-panel__btn" data-gate="${featureKey}">Xem các gói</button>
+    </div>`;
+}
+
+function wireLockButtons(root) {
+  root.querySelectorAll("[data-gate]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (typeof PlanService !== "undefined") PlanService.gate(btn.dataset.gate);
+    });
+  });
+}
+
+/* ---------------- Accuracy (Free) ---------------- */
 
 function renderAccuracyGauges(snap) {
   const mount = document.getElementById("accuracy-row");
@@ -79,13 +91,23 @@ function renderAccuracyGauges(snap) {
   `;
 }
 
-/* ---------------- Skill breakdown ---------------- */
+/* ---------------- Skill Breakdown (Pro) ---------------- */
 
 function renderSkillBreakdown(snap) {
   const mount = document.getElementById("skill-breakdown-list");
   if (!mount) return;
-  const skills = snap.skillBreakdown;
 
+  if (typeof PlanService !== "undefined" && !PlanService.canUseFeature("progress-advanced")) {
+    mount.innerHTML = lockedTeaser(
+      "Skill Breakdown là tính năng Pro",
+      "Xem chi tiết độ chính xác theo từng kỹ năng (Main Idea, Linear Equations...) với gói Pro.",
+      "progress-advanced"
+    );
+    wireLockButtons(mount);
+    return;
+  }
+
+  const skills = snap.skillBreakdown;
   if (skills.length === 0) {
     mount.innerHTML = emptyState(
       "Chưa có dữ liệu luyện tập",
@@ -146,12 +168,32 @@ function renderScoreTrend(snap) {
 
   const est = snap.estimatedScore;
   const trend = snap.scoreTrend;
+  const isPro = typeof PlanService === "undefined" || PlanService.canUseFeature("progress-advanced");
 
   if (!est) {
     mount.innerHTML = emptyState(
       "Chưa có điểm ước tính",
-      "Hoàn thành một phiên luyện tập để xem điểm SAT ước tính và xu hướng theo thời gian."
+      "Hoàn thành một phiên luyện tập để xem điểm SAT ước tính."
     );
+    return;
+  }
+
+  // Con số hiện tại luôn hiện cho Free — chỉ phần lịch sử/biểu đồ bị khoá.
+  const headHtml = `
+    <div class="score-head">
+      <div>
+        <div class="score-big mono">${est.total}</div>
+        <div class="score-caption">Điểm ước tính · RW ${est.readingWriting} · Math ${est.math}</div>
+      </div>
+    </div>`;
+
+  if (!isPro) {
+    mount.innerHTML = headHtml + lockedTeaser(
+      "Xu hướng điểm số là tính năng Pro",
+      "Xem biểu đồ điểm ước tính thay đổi theo từng phiên luyện tập với gói Pro.",
+      "progress-advanced"
+    );
+    wireLockButtons(mount);
     return;
   }
 
@@ -175,13 +217,23 @@ function renderScoreTrend(snap) {
   `;
 }
 
-/* ---------------- Error trends ---------------- */
+/* ---------------- Error trends (Pro) ---------------- */
 
 function renderErrorTrends(snap) {
   const mount = document.getElementById("error-trend-mount");
   if (!mount) return;
-  const data = snap.errorTrends;
 
+  if (typeof PlanService !== "undefined" && !PlanService.canUseFeature("progress-advanced")) {
+    mount.innerHTML = lockedTeaser(
+      "Error Trends là tính năng Pro",
+      "Theo dõi số lỗi sai theo từng tuần để biết mình đang cải thiện hay chững lại.",
+      "progress-advanced"
+    );
+    wireLockButtons(mount);
+    return;
+  }
+
+  const data = snap.errorTrends;
   if (data.length === 0) {
     mount.innerHTML = emptyState("Chưa có lỗi nào được ghi", "Làm sai câu nào là nó tự vào Error Log, rồi thống kê theo tuần sẽ hiện ở đây.");
     return;
@@ -201,6 +253,119 @@ function renderErrorTrends(snap) {
     </div>`;
 }
 
+/* ---------------- Advanced Analytics (Plus): xu hướng theo môn ---------------- */
+
+function renderAdvancedAnalytics() {
+  const mount = document.getElementById("advanced-analytics-mount");
+  if (!mount) return;
+
+  if (typeof PlanService !== "undefined" && !PlanService.canUseFeature("advanced-analytics")) {
+    mount.innerHTML = lockedTeaser(
+      "Advanced Analytics là tính năng Plus",
+      "So sánh xu hướng độ chính xác Reading & Writing và Math qua từng phiên luyện tập.",
+      "advanced-analytics"
+    );
+    wireLockButtons(mount);
+    return;
+  }
+
+  const history = ProgressService.getHistory();
+  const points = history
+    .filter(s => s.bySubject && (s.bySubject["reading-writing"] || s.bySubject["math"]))
+    .map(s => {
+      const rw = s.bySubject["reading-writing"];
+      const math = s.bySubject["math"];
+      return {
+        label: new Date(s.date).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" }),
+        rw: rw && rw.total ? Math.round((rw.correct / rw.total) * 100) : null,
+        math: math && math.total ? Math.round((math.correct / math.total) * 100) : null
+      };
+    });
+
+  if (points.length < 2) {
+    mount.innerHTML = emptyState("Chưa đủ dữ liệu", "Làm thêm vài phiên luyện tập có cả Reading & Writing lẫn Math để thấy xu hướng so sánh.");
+    return;
+  }
+
+  const rwPts = points.filter(p => p.rw !== null).map((p, i) => ({ label: p.label, score: p.rw, accuracy: p.rw }));
+  const mathPts = points.filter(p => p.math !== null).map((p, i) => ({ label: p.label, score: p.math, accuracy: p.math }));
+
+  mount.innerHTML = `
+    <div style="display:flex; gap:16px; margin-bottom:8px; font-size:12px;">
+      <span style="color:var(--violet-500); font-weight:700;">● Reading & Writing</span>
+      <span style="color:#2FB07E; font-weight:700;">● Math</span>
+    </div>
+    ${lineChart(rwPts.length >= 2 ? rwPts : points.map(p => ({ label: p.label, score: p.rw || 0, accuracy: p.rw || 0 })), { color: "var(--violet-500)", min: 0, max: 100 })}
+    ${lineChart(mathPts.length >= 2 ? mathPts : points.map(p => ({ label: p.label, score: p.math || 0, accuracy: p.math || 0 })), { color: "#2FB07E", min: 0, max: 100 })}
+    <div class="score-note">Độ chính xác (%) theo môn qua từng phiên luyện tập gần đây.</div>
+  `;
+}
+
+/* ---------------- Báo cáo tiến độ chi tiết (Plus) ---------------- */
+
+function buildReportText(snap) {
+  const est = snap.estimatedScore;
+  const lines = [];
+  lines.push(`<h3>Tổng quan</h3>`);
+  lines.push(`<p>Tổng số câu đã làm: <b>${snap.totalAnswered}</b> · Số phiên luyện tập: <b>${snap.sessions}</b></p>`);
+  if (est) {
+    lines.push(`<p>Điểm ước tính hiện tại: <b>${est.total}</b> (RW ${est.readingWriting} · Math ${est.math})</p>`);
+  }
+  lines.push(`<h3>Độ chính xác</h3>`);
+  lines.push(`<p>Tổng: <b>${snap.accuracy.overall ?? "—"}%</b> · Reading & Writing: <b>${snap.accuracy.readingWriting ?? "—"}%</b> · Math: <b>${snap.accuracy.math ?? "—"}%</b></p>`);
+  if (snap.skillBreakdown.length > 0) {
+    lines.push(`<h3>Kỹ năng cần cải thiện nhất</h3><ul>`);
+    snap.skillBreakdown.slice(0, 5).forEach(s => {
+      lines.push(`<li>${s.skill}: ${s.accuracy}% (${s.correct}/${s.total})</li>`);
+    });
+    lines.push(`</ul>`);
+  }
+  if (snap.errorTrends.length > 0) {
+    const total = snap.errorTrends.reduce((a, d) => a + d.mistakes, 0);
+    lines.push(`<h3>Lỗi sai</h3><p>${total} lỗi được ghi trong ${snap.errorTrends.length} tuần gần đây.</p>`);
+  }
+  return lines.join("");
+}
+
+function openReportModal(snap) {
+  let el = document.getElementById("report-modal-backdrop");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "report-modal-backdrop";
+    el.className = "report-modal-backdrop";
+    el.innerHTML = `<div class="report-modal" id="report-modal"></div>`;
+    document.body.appendChild(el);
+    el.addEventListener("click", (e) => { if (e.target === el) el.classList.remove("is-open"); });
+  }
+  document.getElementById("report-modal").innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <b>Báo cáo tiến độ chi tiết</b>
+      <button id="report-close-btn" style="border:none; background:none; cursor:pointer; font-size:16px;">✕</button>
+    </div>
+    ${buildReportText(snap)}
+    <div class="report-modal__actions">
+      <button class="btn btn--primary" id="report-print-btn">In / Lưu PDF</button>
+      <button class="btn btn--secondary" id="report-close-btn2">Đóng</button>
+    </div>
+  `;
+  document.getElementById("report-close-btn").addEventListener("click", () => el.classList.remove("is-open"));
+  document.getElementById("report-close-btn2").addEventListener("click", () => el.classList.remove("is-open"));
+  document.getElementById("report-print-btn").addEventListener("click", () => window.print());
+  el.classList.add("is-open");
+}
+
+function wireDetailedReportButton() {
+  const btn = document.getElementById("detailed-report-btn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    if (typeof PlanService !== "undefined") {
+      PlanService.gate("detailed-report", () => openReportModal(ProgressService.getSnapshot()));
+    } else {
+      openReportModal(ProgressService.getSnapshot());
+    }
+  });
+}
+
 /* ---------------- Render + realtime ---------------- */
 
 function renderProgressPage() {
@@ -209,25 +374,28 @@ function renderProgressPage() {
   renderSkillBreakdown(snap);
   renderScoreTrend(snap);
   renderErrorTrends(snap);
+  renderAdvancedAnalytics();
 }
 
 function initProgressPage() {
   renderSidebar("progress");
+  wireDetailedReportButton();
 
   let hasRenderedOnce = false;
+  let planIsReady = typeof PlanService === "undefined"; // không có PlanService thì đừng treo mãi
   function safeRender() {
+    if (!planIsReady) return; // đợi biết chắc gói trước khi vẽ lần đầu
     hasRenderedOnce = true;
     renderProgressPage();
   }
 
-  // KHÔNG vẽ ngay ở đây. Chờ tín hiệu namespace đã sẵn sàng (event đầu tiên
-  // mà cloudSync bắn ra sau khi biết chính xác đây là tài khoản nào), rồi
-  // mới vẽ lần đầu — tránh đọc nhầm dữ liệu cũ trong lúc Firebase còn xác thực.
-  document.addEventListener("satpractice:changed", safeRender);
+  if (typeof PlanService !== "undefined") {
+    PlanService.whenReady(() => { planIsReady = true; safeRender(); });
+  }
 
-  // Lưới an toàn: nếu vì lý do gì đó không có event nào bắn trong 1.5s
-  // (ví dụ thiếu cloudSync.js), vẫn vẽ để trang không trắng mãi.
-  setTimeout(() => { if (!hasRenderedOnce) safeRender(); }, 1500);
+  document.addEventListener("satpractice:changed", safeRender);
+  document.addEventListener("satpractice:planchanged", safeRender);
+  setTimeout(() => { planIsReady = true; if (!hasRenderedOnce) safeRender(); }, 1500);
 }
 
 document.addEventListener("DOMContentLoaded", initProgressPage);

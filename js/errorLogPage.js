@@ -1,5 +1,10 @@
 /**
  * errorLogPage.js — drives error-log.html.
+ *
+ * SỬA (tính năng Pro): "Phân tích lỗi sai chi tiết" = modal chi tiết khi
+ * bấm vào 1 dòng lỗi (what happened / why / fix strategy). Free vẫn thấy
+ * bảng thống kê + danh sách lỗi (cơ bản), nhưng bấm vào dòng nào cũng mở
+ * paywall thay vì modal phân tích.
  */
 
 let currentFilter = "all";
@@ -46,7 +51,7 @@ function renderFilterChips() {
 }
 
 function renderTable() {
-  const all = ErrorLogService.getAll().slice().reverse(); // newest first
+  const all = ErrorLogService.getAll().slice().reverse();
   const filtered = currentFilter === "all" ? all : all.filter(e => e.status === currentFilter);
   const wrap = document.getElementById("errlog-table-wrap");
   const empty = document.getElementById("errlog-empty");
@@ -59,10 +64,12 @@ function renderTable() {
   wrap.style.display = "block";
   empty.style.display = "none";
 
+  const locked = typeof PlanService !== "undefined" && !PlanService.canUseFeature("errorlog-detail");
+
   document.getElementById("errlog-rows").innerHTML = filtered.map(e => `
-    <tr data-id="${e.id}">
+    <tr data-id="${e.id}" class="${locked ? "is-locked-row" : ""}">
       <td>
-        <div class="q-topic">${e.skill}</div>
+        <div class="q-topic">${e.skill} ${locked ? '<span title="Cần gói Pro">🔒</span>' : ""}</div>
         <div class="q-id">${e.questionId}</div>
       </td>
       <td>${e.subject === "math" ? "Math" : "Reading & Writing"}</td>
@@ -85,6 +92,10 @@ function renderTable() {
 }
 
 function openDetail(id) {
+  if (typeof PlanService !== "undefined" && !PlanService.canUseFeature("errorlog-detail")) {
+    PlanService.gate("errorlog-detail");
+    return;
+  }
   currentEntryId = id;
   renderModal();
   document.getElementById("modal-backdrop").classList.add("is-open");
@@ -144,7 +155,6 @@ function renderModal() {
 
   let body;
   if (!entry.errorType) {
-    // Step 1: "Why did you miss this?"
     body = `
       ${questionBlock}
       <div class="errlog-section">
@@ -261,4 +271,10 @@ function initErrorLogPage() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initErrorLogPage);
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof PlanService !== "undefined") {
+    PlanService.whenReady(initErrorLogPage);
+  } else {
+    initErrorLogPage();
+  }
+});

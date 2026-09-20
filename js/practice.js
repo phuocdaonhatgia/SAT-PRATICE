@@ -1,10 +1,13 @@
 /**
  * practice.js — logic for practice.html (the picker screen).
+ *
+ * SỬA (tính năng Pro): chip Medium/Hard bị khoá với gói Free — hiện icon
+ * khoá, bấm vào mở paywall thay vì chọn. Mặc định free chỉ chọn "easy".
  */
 
 const state = {
   subject: "reading-writing",
-  selectedSkills: new Set(),      // empty set == "all skills in this subject"
+  selectedSkills: new Set(),
   selectedDifficulties: new Set(["easy", "medium", "hard"]),
   count: 10
 };
@@ -21,6 +24,10 @@ const SUBJECT_META = {
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M6 12h.01M6 16h.01M10 12h4M10 16h4M18 12v4"/></svg>`
   }
 };
+
+function isDiffLocked(diff) {
+  return (typeof PlanService !== "undefined") && !PlanService.canAccessDifficulty(diff);
+}
 
 function renderSubjectTabs() {
   const mount = document.getElementById("subject-tabs");
@@ -86,16 +93,27 @@ function renderDifficultyChips() {
     { key: "medium", label: "Medium" },
     { key: "hard", label: "Hard" }
   ];
-  mount.innerHTML = levels.map(l => `
-    <button class="chip ${state.selectedDifficulties.has(l.key) ? "is-selected" : ""}" data-diff="${l.key}">
+  mount.innerHTML = levels.map(l => {
+    const locked = isDiffLocked(l.key);
+    return `
+    <button class="chip ${state.selectedDifficulties.has(l.key) && !locked ? "is-selected" : ""} ${locked ? "is-locked" : ""}" data-diff="${l.key}" ${locked ? 'data-locked="true"' : ""}>
       ${l.label}
-    </button>
-  `).join("");
+    </button>`;
+  }).join("");
+
+  // Free: chỉ "easy" được chọn ngay từ đầu, bỏ medium/hard ra khỏi lựa chọn hiện tại.
+  levels.forEach(l => {
+    if (isDiffLocked(l.key)) state.selectedDifficulties.delete(l.key);
+  });
+  if (state.selectedDifficulties.size === 0) state.selectedDifficulties.add("easy");
 
   mount.querySelectorAll(".chip[data-diff]").forEach(chip => {
     chip.addEventListener("click", () => {
       const diff = chip.dataset.diff;
-      // don't allow deselecting the last difficulty
+      if (chip.dataset.locked === "true") {
+        if (typeof PlanService !== "undefined") PlanService.gate("questions-full");
+        return;
+      }
       if (state.selectedDifficulties.has(diff) && state.selectedDifficulties.size === 1) return;
       if (state.selectedDifficulties.has(diff)) {
         state.selectedDifficulties.delete(diff);
@@ -163,7 +181,7 @@ function startWeakAreaSession() {
   const weakList = (typeof GamificationService !== "undefined") ? GamificationService.getSkillAccuracyList(1) : [];
   const weakSkills = weakList.length > 0
     ? weakList.slice(0, 4).map(w => w.skill)
-    : ["Inference", "Transitions", "Linear Equations"]; // sensible default before the student has any real data
+    : ["Inference", "Transitions", "Linear Equations"];
   const bySkill = QuestionProvider.filterQuestions({ skills: weakSkills });
   const ids = QuestionProvider.shuffle(bySkill).slice(0, Math.min(12, bySkill.length)).map(q => q.id);
   SessionManager.createSession(ids, { source: "weak-areas", label: "Weak Areas Practice" });
@@ -176,7 +194,7 @@ function initPractice() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("focus") === "weak") {
     startWeakAreaSession();
-    return; // redirecting, no need to render the picker
+    return;
   }
 
   renderSubjectTabs();
@@ -194,4 +212,10 @@ function initPractice() {
   document.getElementById("start-practice-btn").addEventListener("click", startPractice);
 }
 
-document.addEventListener("DOMContentLoaded", initPractice);
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof PlanService !== "undefined") {
+    PlanService.whenReady(initPractice);
+  } else {
+    initPractice();
+  }
+});

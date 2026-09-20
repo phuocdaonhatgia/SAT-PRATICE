@@ -1,10 +1,14 @@
 /**
- * practiceTests.js — drives practice-tests.html (spec mục 11 + mục 14).
- * allSkillNames / poolForArea / computeComposition now live in
- * compositionHelpers.js (shared with learningSprint.js).
+ * practiceTests.js — drives practice-tests.html.
+ *
+ * SỬA (tính năng Pro/Plus): toàn bộ trang này là "Mock Test" -> yêu cầu
+ * gói Pro trở lên, nếu không hiện panel khoá thay vì UI thật. Trong trang,
+ * "Full Practice" (đề đầy đủ RW+Math, mô phỏng thi thật) là "Bộ đề SAT
+ * chuyên sâu" -> yêu cầu riêng gói Plus. Chip Medium/Hard trong Custom Test
+ * khoá giống practice.html.
  */
 
-/* ---------------- Full Practice ---------------- */
+/* ---------------- Full Practice (Plus: "Bộ đề SAT chuyên sâu") ---------------- */
 function startFullPractice() {
   const rw = QuestionProvider.shuffle(QuestionProvider.getQuestionsBySubject("reading-writing"));
   const math = QuestionProvider.shuffle(QuestionProvider.getQuestionsBySubject("math"));
@@ -49,11 +53,15 @@ function renderPersonalizedCard() {
 
 /* ---------------- Custom Test composer ---------------- */
 const customState = {
-  subjectMode: "both",              // "reading-writing" | "math" | "both"
+  subjectMode: "both",
   selectedSkills: new Set(),
   selectedDifficulties: new Set(["easy", "medium", "hard"]),
   count: 10
 };
+
+function isDiffLocked(diff) {
+  return (typeof PlanService !== "undefined") && !PlanService.canAccessDifficulty(diff);
+}
 
 function renderCustomSubjectChips() {
   const options = [
@@ -103,11 +111,21 @@ function renderCustomSkillChips() {
 function renderCustomDifficultyChips() {
   const levels = [{ key: "easy", label: "Easy" }, { key: "medium", label: "Medium" }, { key: "hard", label: "Hard" }];
   const mount = document.getElementById("custom-difficulty-chips");
-  mount.innerHTML = levels.map(l => `
-    <button class="chip ${customState.selectedDifficulties.has(l.key) ? "is-selected" : ""}" data-diff="${l.key}">${l.label}</button>
-  `).join("");
+  mount.innerHTML = levels.map(l => {
+    const locked = isDiffLocked(l.key);
+    return `
+    <button class="chip ${customState.selectedDifficulties.has(l.key) && !locked ? "is-selected" : ""} ${locked ? "is-locked" : ""}" data-diff="${l.key}" ${locked ? 'data-locked="true"' : ""}>${l.label}</button>`;
+  }).join("");
+
+  levels.forEach(l => { if (isDiffLocked(l.key)) customState.selectedDifficulties.delete(l.key); });
+  if (customState.selectedDifficulties.size === 0) customState.selectedDifficulties.add("easy");
+
   mount.querySelectorAll(".chip").forEach(chip => {
     chip.addEventListener("click", () => {
+      if (chip.dataset.locked === "true") {
+        if (typeof PlanService !== "undefined") PlanService.gate("questions-full");
+        return;
+      }
       const d = chip.dataset.diff;
       if (customState.selectedDifficulties.has(d) && customState.selectedDifficulties.size === 1) return;
       customState.selectedDifficulties.has(d) ? customState.selectedDifficulties.delete(d) : customState.selectedDifficulties.add(d);
@@ -159,12 +177,46 @@ function startCustomTest() {
   window.location.href = "question.html";
 }
 
+/* ---------------- Khoá cả trang (Pro) ---------------- */
+
+function renderLockedPage() {
+  const main = document.querySelector(".main");
+  main.innerHTML = `
+    <div class="topbar">
+      <div><div class="topbar__greeting">Practice Tests</div></div>
+    </div>
+    <div class="card">
+      <div class="locked-panel">
+        <div class="locked-panel__icon">🔒</div>
+        <div class="locked-panel__title">Mock Test là tính năng Pro</div>
+        <div class="locked-panel__sub">Nâng cấp lên gói Pro để làm đề mô phỏng, mini test và custom test không giới hạn.</div>
+        <button class="locked-panel__btn" id="locked-upgrade-btn">Xem các gói</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("locked-upgrade-btn").addEventListener("click", () => {
+    if (typeof PlanService !== "undefined") PlanService.gate("mock-test");
+  });
+}
+
 /* ---------------- Init ---------------- */
 function initPracticeTestsPage() {
   renderSidebar("tests");
+
+  if (typeof PlanService !== "undefined" && !PlanService.isAtLeast("pro")) {
+    renderLockedPage();
+    return;
+  }
+
   renderPersonalizedCard();
 
-  document.getElementById("start-full-btn").addEventListener("click", startFullPractice);
+  document.getElementById("start-full-btn").addEventListener("click", () => {
+    if (typeof PlanService !== "undefined") {
+      PlanService.gate("deep-sets", startFullPractice);
+    } else {
+      startFullPractice();
+    }
+  });
   document.getElementById("start-mini-10-btn").addEventListener("click", () => startMiniTest(10));
   document.getElementById("start-mini-20-btn").addEventListener("click", () => startMiniTest(20));
 
@@ -176,4 +228,10 @@ function initPracticeTestsPage() {
   document.getElementById("start-custom-btn").addEventListener("click", startCustomTest);
 }
 
-document.addEventListener("DOMContentLoaded", initPracticeTestsPage);
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof PlanService !== "undefined") {
+    PlanService.whenReady(initPracticeTestsPage);
+  } else {
+    initPracticeTestsPage();
+  }
+});

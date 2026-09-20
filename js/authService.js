@@ -1,8 +1,8 @@
 /**
  * authService.js — đăng ký / đăng nhập / đăng xuất.
  *
- * Ở APP_MODE = "local" thì nó giả lập một user offline lưu trong localStorage,
- * nên toàn bộ app vẫn chạy được khi chưa cắm Firebase.
+ * SỬA (tính năng Pro/Plus): thêm field `plan` (mặc định "free") vào profile —
+ * đây là nguồn sự thật cho PlanService.getCurrentPlan().
  */
 
 const AuthService = (() => {
@@ -11,15 +11,12 @@ const AuthService = (() => {
   let currentUser = null;
   let ready = false;
 
-  /* ---------- helpers ---------- */
-
   function notify() {
     listeners.forEach(fn => {
       try { fn(currentUser); } catch (e) { console.error(e); }
     });
   }
 
-  /** Đổi mã lỗi Firebase sang tiếng Việt cho học sinh dễ hiểu. */
   function friendlyError(code) {
     const map = {
       "auth/email-already-in-use": "Email này đã được đăng ký rồi.",
@@ -43,8 +40,6 @@ const AuthService = (() => {
       ...extra
     };
   }
-
-  /* ---------- profile doc trên Firestore ---------- */
 
   async function saveProfile(user, patch = {}) {
     const FB = window.FB;
@@ -73,14 +68,12 @@ const AuthService = (() => {
     }
   }
 
-  /* ---------- khởi động ---------- */
-
   async function init() {
     const FB = await window.firebaseReady;
 
     if (!FB) {
-      // chế độ local
       currentUser = Storage.get(LOCAL_USER_KEY, null);
+      if (currentUser && !currentUser.plan) currentUser.plan = "free";
       ready = true;
       notify();
       return;
@@ -91,7 +84,8 @@ const AuthService = (() => {
         const profile = await loadProfile(fbUser.uid);
         currentUser = shape(fbUser, {
           grade: profile.grade || null,
-          targetScore: profile.targetScore || null
+          targetScore: profile.targetScore || null,
+          plan: profile.plan || "free"
         });
       } else {
         currentUser = null;
@@ -101,9 +95,6 @@ const AuthService = (() => {
     });
   }
 
-  /* ---------- API công khai ---------- */
-
-  /** @returns {Promise<{ok:boolean, error?:string}>} */
   async function signUp({ email, password, displayName, grade, targetScore }) {
     const FB = await window.firebaseReady;
 
@@ -113,7 +104,8 @@ const AuthService = (() => {
         email,
         displayName: displayName || email.split("@")[0],
         grade: grade || null,
-        targetScore: targetScore || null
+        targetScore: targetScore || null,
+        plan: "free"
       };
       Storage.set(LOCAL_USER_KEY, currentUser);
       notify();
@@ -123,11 +115,12 @@ const AuthService = (() => {
     try {
       const cred = await FB.createUserWithEmailAndPassword(FB.auth, email, password);
       if (displayName) await FB.updateProfile(cred.user, { displayName });
-      const user = shape(cred.user, { grade, targetScore });
+      const user = shape(cred.user, { grade, targetScore, plan: "free" });
       user.displayName = displayName || user.displayName;
       await saveProfile(user, {
         grade: grade || null,
         targetScore: targetScore || null,
+        plan: "free",
         createdAt: FB.serverTimestamp()
       });
       currentUser = user;
@@ -153,7 +146,7 @@ const AuthService = (() => {
 
     try {
       await FB.signInWithEmailAndPassword(FB.auth, email, password);
-      return { ok: true }; // onAuthStateChanged sẽ set currentUser
+      return { ok: true };
     } catch (e) {
       return { ok: false, error: friendlyError(e.code) };
     }
@@ -183,7 +176,6 @@ const AuthService = (() => {
   function getUser() { return currentUser; }
   function isReady() { return ready; }
 
-  /** Gọi cb ngay nếu đã biết trạng thái, và mỗi lần user đổi. */
   function onUser(cb) {
     listeners.push(cb);
     if (ready) cb(currentUser);

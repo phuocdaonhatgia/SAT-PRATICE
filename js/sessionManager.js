@@ -1,20 +1,27 @@
 /**
  * sessionManager.js — owns the "current practice session" the Question
- * Interface (question.html) runs against. A session is just a list of
- * question ids in play order plus per-question answer state.
+ * Interface (question.html) runs against.
+ *
+ * SỬA (tính năng Pro): createSession() lọc bớt câu hỏi ngoài quyền của gói
+ * hiện tại (PlanService.filterQuestionIds) — lớp phòng vệ cuối, phòng khi
+ * một luồng nào đó chưa tự khoá chip độ khó ở UI.
  */
 
 const SessionManager = (() => {
   const KEY = "currentSession";
 
   function createSession(questionIds, meta = {}) {
+    const allowedIds = (typeof PlanService !== "undefined")
+      ? PlanService.filterQuestionIds(questionIds)
+      : questionIds;
+
     const session = {
       id: "session-" + Date.now(),
       createdAt: new Date().toISOString(),
-      meta,                     // { source, label, subject, skills, difficulties }
-      questionIds,
+      meta,
+      questionIds: allowedIds,
       currentIndex: 0,
-      answers: {}               // questionId -> { selected, submitted, correct, markedForReview, hintLevel, timeSpentSec }
+      answers: {}
     };
     Storage.set(KEY, session);
     return session;

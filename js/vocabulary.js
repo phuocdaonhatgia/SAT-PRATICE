@@ -1,10 +1,14 @@
 /**
  * vocabulary.js — drives vocabulary.html (spec mục 12-13).
+ *
+ * SỬA (tính năng Pro): wordCard() giờ khoá từ vựng độ khó medium/hard với
+ * gói Free — hiện thẻ mờ + icon khoá, bấm vào mở paywall thay vì lật thẻ.
+ * Quiz cũng chỉ rút từ pool mà gói hiện tại được phép truy cập.
  */
 
-let quizState = null;        // { questions, index, score, finished }
+let quizState = null;
 let browseFilters = { search: "", difficulty: "all", group: "all" };
-let dailyOverride = null;    // { words, label } — set when a personalized/custom set replaces today's words
+let dailyOverride = null;
 
 function switchTab(tab) {
   document.querySelectorAll(".vocab-tab").forEach(t => t.classList.toggle("is-active", t.dataset.tab === tab));
@@ -25,11 +29,25 @@ function renderStats() {
   `;
 }
 
+function isWordLocked(w) {
+  return (typeof PlanService !== "undefined") && !PlanService.canAccessDifficulty(w.difficulty);
+}
+
 /**
  * Word cards double as mini flashcards: clicking "Learn it" (or the card face)
  * flips the card with a 3D animation to reveal the Vietnamese meaning on the back.
+ * Từ khoá medium/hard với gói Free hiện thẻ khoá thay vì flashcard thật.
  */
 function wordCard(w, { showActions = true } = {}) {
+  if (isWordLocked(w)) {
+    return `
+      <div class="word-card--locked" data-word-id="${w.id}" data-locked="true">
+        <div class="word-card__lock-icon">🔒</div>
+        <div class="word-card__word-blur">${w.word}</div>
+        <div class="word-card__lock-label">Cần gói Pro để mở từ độ khó ${w.difficulty === "medium" ? "trung bình" : "khó"}</div>
+      </div>`;
+  }
+
   const progress = VocabService.getProgress(w.id);
   const dotClass = progress.status === "known" ? "status-dot--known"
     : progress.status === "review" ? "status-dot--review" : "status-dot--new";
@@ -72,21 +90,25 @@ function flipWordCard(container, wordId, forceFlip) {
 }
 
 function wireWordCardActions(container) {
-  // Tap the card face to flip it (front <-> back).
+  // Thẻ bị khoá -> bấm vào mở paywall, không flip.
+  container.querySelectorAll('.word-card--locked').forEach(card => {
+    card.addEventListener("click", () => {
+      if (typeof PlanService !== "undefined") PlanService.gate("vocab-advanced");
+    });
+  });
+
   container.querySelectorAll("[data-flip-trigger]").forEach(face => {
     face.addEventListener("click", (e) => {
-      if (e.target.closest("[data-action]")) return; // let buttons handle their own click
+      if (e.target.closest("[data-action]")) return;
       flipWordCard(container, face.dataset.flipTrigger);
     });
   });
-  // "Learn it" flips the card open to reveal the Vietnamese meaning.
   container.querySelectorAll('[data-action="learn"]').forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       flipWordCard(container, btn.dataset.wordId, true);
     });
   });
-  // "Đã thuộc ✓" on the back marks the word as known.
   container.querySelectorAll('[data-action="got-it"]').forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -134,7 +156,10 @@ function showDailyOverride(words, label) {
 
 /* ---------------- Quiz ---------------- */
 function buildQuizQuestions(source, count) {
-  const pool = source === "missed" ? VocabService.getMissedWords() : VocabService.getAllWords();
+  let pool = source === "missed" ? VocabService.getMissedWords() : VocabService.getAllWords();
+  if (typeof PlanService !== "undefined") {
+    pool = pool.filter(w => PlanService.canAccessDifficulty(w.difficulty));
+  }
   const chosen = VocabService.shuffle(pool).slice(0, Math.min(count, pool.length));
   return chosen.map(w => {
     const distractorPool = VocabService.getAllWords().filter(x => x.id !== w.id);
@@ -309,4 +334,12 @@ function initVocabularyPage() {
   renderDailyPane();
 }
 
-document.addEventListener("DOMContentLoaded", initVocabularyPage);
+document.addEventListener("DOMContentLoaded", () => {
+  // Đợi PlanService biết chắc gói hiện tại (Free/Pro/Plus) rồi mới vẽ thẻ
+  // từ vựng — tránh flash "khoá" sai lúc Firebase còn đang xác thực.
+  if (typeof PlanService !== "undefined") {
+    PlanService.whenReady(initVocabularyPage);
+  } else {
+    initVocabularyPage();
+  }
+});

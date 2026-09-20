@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="css/components.css" />
 <link rel="stylesheet" href="css/auth.css" />
+<link rel="stylesheet" href="css/upgrade.css" />
 <link rel="stylesheet" href="css/practice.css" />
 <link rel="stylesheet" href="css/progress.css" />
 </head>
@@ -36,6 +37,23 @@
       </div>
     </div>
 
+    <!-- Advanced Analytics (Plus) -->
+    <section class="card" style="margin-bottom:18px;">
+      <div class="card__head">
+        <span class="card__title">Advanced Analytics</span>
+      </div>
+      <div id="advanced-analytics-mount"></div>
+    </section>
+
+    <!-- Báo cáo tiến độ chi tiết (Plus) -->
+    <section class="card" style="margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <div>
+        <div class="card__title" style="margin-bottom:4px;">Báo cáo tiến độ chi tiết</div>
+        <div style="font-size:12.5px; color:var(--text-600);">Tổng hợp toàn bộ số liệu, in hoặc lưu PDF.</div>
+      </div>
+      <button class="btn btn--primary" id="detailed-report-btn">Xuất báo cáo</button>
+    </section>
+
     <!-- Learning Sprint (Design Thinking, spec mục 19) -->
     <section class="card" style="margin-top:18px;">
       <div class="card__head">
@@ -57,6 +75,8 @@
 <script src="js/authService.js"></script>
 <script src="js/cloudSync.js"></script>
 <script src="js/authGuard.js"></script>
+<script src="js/planService.js"></script>
+<script src="js/upgradeModal.js"></script>
 
 <script src="js/data/questionsData.js"></script>
 <script src="js/questionEngine.js"></script>

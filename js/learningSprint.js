@@ -1,9 +1,9 @@
 /**
  * learningSprint.js — spec mục 19 "Your SAT Learning Sprint" section.
- * Lives on progress.html. Persists Empathize/Define answers and chosen
- * strategies to localStorage; Prototype reuses computeComposition()
- * (compositionHelpers.js) to generate a real session from the student's
- * actual weak areas that they can immediately take.
+ * Lives on progress.html.
+ *
+ * SỬA (tính năng Plus): toàn bộ Learning Sprint = "Personalized Study Plan"
+ * -> yêu cầu gói Plus. Nếu không đủ quyền, thay nội dung card bằng panel khoá.
  */
 
 const SPRINT_STEPS = [
@@ -172,9 +172,37 @@ function renderSprintPane() {
   }
 }
 
+function renderSprintLocked() {
+  const tabsEl = document.getElementById("sprint-tabs");
+  const card = tabsEl ? tabsEl.closest(".card") : null;
+  if (!card) return;
+  card.innerHTML = `
+    <div class="card__head"><span class="card__title">Your SAT Learning Sprint</span></div>
+    <div class="locked-panel">
+      <div class="locked-panel__icon">🔒</div>
+      <div class="locked-panel__title">Personalized Study Plan là tính năng Plus</div>
+      <div class="locked-panel__sub">Nâng cấp lên Plus để có lộ trình học cá nhân hoá dựa trên điểm yếu của bạn.</div>
+      <button class="locked-panel__btn" id="sprint-upgrade-btn">Xem các gói</button>
+    </div>
+  `;
+  document.getElementById("sprint-upgrade-btn").addEventListener("click", () => {
+    if (typeof PlanService !== "undefined") PlanService.gate("study-plan");
+  });
+}
+
 function initLearningSprint() {
+  if (typeof PlanService !== "undefined" && !PlanService.canUseFeature("study-plan")) {
+    renderSprintLocked();
+    return;
+  }
   renderSprintTabs();
   renderSprintPane();
 }
 
-document.addEventListener("DOMContentLoaded", initLearningSprint);
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof PlanService !== "undefined") {
+    PlanService.whenReady(initLearningSprint);
+  } else {
+    initLearningSprint();
+  }
+});
